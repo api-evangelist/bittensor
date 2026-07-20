@@ -1,0 +1,38 @@
+generated: '2026-07-18'
+method: searched
+source: https://www.bittensor.com/docs/concepts/wallets
+summary:
+  model: wallet-key-signing
+  types:
+  - substrate-keypair-signature
+  no_oauth: true
+  no_api_keys: true
+  note: Bittensor has no hosted REST API and therefore no API keys or OAuth. Every state-changing operation
+    is a Substrate extrinsic signed by a wallet keypair; there is no bearer token or account SID.
+keys:
+- name: coldkey
+  role: Custodial root key; authorizes funds and high-value operations; kept offline where possible.
+- name: hotkey
+  role: Operational key registered on subnets to mine/validate and to sign inter-neuron HTTP requests.
+signature_schemes:
+- sr25519
+- ed25519
+signing_methods:
+- method: sdk/cli
+  docs: https://www.bittensor.com/docs/quickstart
+- method: browser-extension
+  detail: Talisman / Polkadot.js — key never touches the CLI host.
+  docs: https://www.bittensor.com/docs/guides/extension-signing
+- method: ledger
+  detail: Polkadot generic app on Ledger hardware wallet.
+  docs: https://www.bittensor.com/docs/guides/ledger
+- method: proxy
+  detail: Scoped, revocable delegate keys sign day-to-day calls for an offline coldkey.
+  docs: https://www.bittensor.com/docs/guides/proxies
+- method: multisig
+  detail: M-of-N control of a coldkey.
+  docs: https://www.bittensor.com/docs/guides/multisig
+request_auth:
+  scheme: btauth/1
+  description: Hotkey-signed HTTP between validators and miners (signed-requests wire format).
+  docs: https://www.bittensor.com/docs/guides/signed-requests
