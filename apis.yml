@@ -1,8 +1,17 @@
 aid: bittensor
 name: Bittensor
-description: 'Bittensor is a company surfaced as a portfolio company of polychain and added to the API
-  Evangelist network as a stub for enrichment. Sector: ai. This profile is a lead awaiting the enrichment
-  pipeline.'
+description: >-
+  Bittensor is an open, decentralized machine-intelligence network built on a
+  Substrate blockchain (subtensor). Contributors earn the TAO token by supplying
+  useful work to specialized subnets — miners produce, validators score, and
+  stakers back them — with emissions distributed by Yuma Consensus. Developers do
+  not consume a hosted REST API; they interact with the chain through the official
+  lean Python SDK (import bittensor) and the btcli command line, which together
+  perform every user-facing operation: wallets and keys, staking and pools, subnet
+  creation, mining, validating, weights, proxies, multisig, and an EVM layer. The
+  developer surface is agent-native: machine-readable catalogs of write intents,
+  chain reads, and errors are published for discovery, with a plan/execute model,
+  Policy guardrails, and typed results.
 url: https://raw.githubusercontent.com/api-evangelist/bittensor/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,18 +19,128 @@ x-backed-by:
 - polychain
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
+image: https://github.com/opentensor.png
 tags:
 - Company
 - Ai
-apis: []
+- Blockchain
+- Decentralized AI
+- Machine Learning
+- Cryptocurrency
+- Web3
+- SDK
+- CLI
+- DePIN
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- name: Bittensor Chain SDK & CLI
+  description: >-
+    The unified Bittensor v11 package — a lean Python SDK (import bittensor) plus
+    the btcli command line — for every operation on the subtensor Substrate chain:
+    reading chain state and submitting state-changing transactions (staking,
+    registration, weights, subnets, proxies, multisig) against a mainnet or
+    testnet RPC entrypoint.
+  humanURL: https://www.bittensor.com/docs
+  baseURL: wss://entrypoint-finney.opentensor.ai:443
+  properties:
+  - type: Documentation
+    url: https://www.bittensor.com/docs
+  - type: GettingStarted
+    url: https://www.bittensor.com/docs/quickstart
+  - type: APIReference
+    url: https://www.bittensor.com/docs/tx
+  - type: LLMsTxt
+    url: llms/bittensor-llms.txt
+  - type: ErrorCatalog
+    url: errors/bittensor-error-codes.yml
+  - type: MCPServer
+    url: mcp/bittensor-mcp.yml
+  - type: Packages
+    url: packages/bittensor-packages.yml
+  - type: SDKs
+    url: packages/bittensor-packages.yml
+  - type: CLI
+    url: cli/bittensor-cli.yml
+  - type: Authentication
+    url: authentication/bittensor-authentication.yml
+  - type: Conventions
+    url: conventions/bittensor-conventions.yml
+  - type: Lifecycle
+    url: lifecycle/bittensor-lifecycle.yml
+  - type: Conformance
+    url: conformance/bittensor-conformance.yml
+  - type: DataModel
+    url: data-model/bittensor-data-model.yml
+  - type: AgenticAccess
+    url: agentic-access/bittensor-agentic-access.yml
+  - type: AgentSkill
+    url: skills/_index.yml
 common:
 - type: Website
   url: https://bittensor.com
+- type: DeveloperPortal
+  url: https://www.bittensor.com/docs
+- type: Documentation
+  url: https://www.bittensor.com/docs
+- type: GettingStarted
+  url: https://www.bittensor.com/docs/quickstart
+- type: APIReference
+  url: https://www.bittensor.com/docs/tx
+- type: GitHubOrganization
+  url: https://github.com/opentensor
+- type: Blog
+  url: https://www.bittensor.com/releases
+- type: SDKs
+  url: packages/bittensor-packages.yml
+- type: Packages
+  url: packages/bittensor-packages.yml
+- type: CLI
+  url: cli/bittensor-cli.yml
+- type: MCPServer
+  url: mcp/bittensor-mcp.yml
+- type: LLMsTxt
+  url: llms/bittensor-llms.txt
+- type: ErrorCatalog
+  url: errors/bittensor-error-codes.yml
+- type: Authentication
+  url: authentication/bittensor-authentication.yml
+- type: Conventions
+  url: conventions/bittensor-conventions.yml
+- type: Lifecycle
+  url: lifecycle/bittensor-lifecycle.yml
+- type: Conformance
+  url: conformance/bittensor-conformance.yml
+- type: WellKnown
+  url: well-known/bittensor-well-known.yml
+- type: DomainSecurity
+  url: security/bittensor-domain-security.yml
+- type: DataModel
+  url: data-model/bittensor-data-model.yml
+- type: AgenticAccess
+  url: agentic-access/bittensor-agentic-access.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

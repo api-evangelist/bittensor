@@ -1,0 +1,44 @@
+generated: '2026-07-18'
+method: searched
+source: https://pypi.org/project/bittensor/
+packages:
+- language: python
+  registry: pypi
+  name: bittensor
+  version: 11.0.0
+  url: https://pypi.org/project/bittensor/
+  install: 'uv pip install bittensor  # or: pip install bittensor'
+  description: Lean Python SDK (import bittensor) + btcli CLI + wallet for the Bittensor/subtensor chain.
+    Unified v11 package superseding the legacy bittensor (SDK) and bittensor-cli packages.
+  official: true
+  source_code: https://github.com/opentensor/bittensor
+  provides:
+  - sdk
+  - cli
+  - wallet
+- language: python
+  registry: pypi
+  name: bittensor-cli
+  version: legacy
+  url: https://pypi.org/project/bittensor-cli/
+  install: pip install bittensor-cli
+  description: Legacy standalone btcli (v9). Consolidated into the bittensor v11 package; kept for back-compat.
+  official: true
+  source_code: https://github.com/opentensor/btcli
+- language: python
+  registry: pypi
+  name: bittensor-wallet
+  url: https://pypi.org/project/bittensor-wallet/
+  install: pip install bittensor-wallet
+  description: Standalone wallet/key library, also bundled into bittensor v11.
+  official: true
+community_packages:
+- language: javascript
+  registry: npm
+  name: '@taostats/sdk'
+  url: https://www.npmjs.com/package/@taostats/sdk
+  official: false
+  note: Third-party (TaoStats) explorer/analytics SDK, not Opentensor.
+note: Bittensor ships no first-party JavaScript/Go/Rust client package on public registries; the official
+  client surface is the Python bittensor package (SDK+btcli+wallet). The chain node itself (subtensor)
+  is Rust/Substrate.

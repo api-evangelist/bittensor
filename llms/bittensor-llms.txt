@@ -1,0 +1,691 @@
+# Bittensor
+
+- [Bittensor Documentation](/docs): Do anything on the Bittensor chain with the Bittensor SDK and CLI.
+- [Quickstart](/docs/quickstart): Install, connect, read chain state, and submit your first transaction.
+- [The SDK](/docs/sdk): The five core primitives — Subtensor, Wallet, Balance, intents, and results — and their one-line constructors.
+- [For agents](/docs/agents): How an agent discovers, previews, and safely executes any Bittensor operation.
+- [The CLI](/docs/cli): Configuration, global options, generated commands, and non-interactive use.
+- Concepts
+  - [The network](/docs/concepts/network): Subnets, miners, validators, stakers, TAO and alpha, emissions, and epochs.
+  - [Emissions](/docs/concepts/emissions): TAO and alpha issuance, halvings, subnet emission shares, the per-tempo split, and Yuma Consensus.
+  - [Wallets and keys](/docs/concepts/wallets): Coldkeys, hotkeys, key material and backups, security tiers, key rotation, and how address arguments resolve.
+  - [Money](/docs/concepts/money): The Balance type, TAO vs alpha, rao, and valuing stake without lying to yourself.
+  - [Staking and pools](/docs/concepts/staking-pools): The per-subnet balancer pools, what a stake operation actually does, price impact, swap fees, and MEV-shielded submission.
+  - [The client](/docs/concepts/client): Connecting, the three levels of reading chain state, blocks and waiting, and snapshots.
+  - [The transaction model](/docs/concepts/transactions): Intents, plan and execute, Policy guardrails, and typed results.
+  - [Advanced submission](/docs/concepts/advanced): Proxies, atomic batches, MEV-shielded submission, multisig, and raw calls.
+- Guides
+  - [Staking](/docs/guides/staking): Back validators with TAO, manage positions across subnets, and claim root dividends.
+  - [Conviction locks](/docs/guides/conviction): Lock alpha on a subnet, accrue conviction toward a hotkey, and understand the path to subnet ownership — with a worked example on Subnet 7.
+  - [Mining](/docs/guides/mining): Register a hotkey on a subnet, publish your axon, and keep your UID.
+  - [Validating](/docs/guides/validating): Register, attract stake, score miners with weights, and manage take and childkeys.
+  - [Running a subnet](/docs/guides/subnets): Create a subnet, activate it, tune hyperparameters, and manage its identity and economics.
+  - [Multisig wallets](/docs/guides/multisig): Put a coldkey under M-of-N control so no single stolen or lost key can move your funds.
+  - [Proxy accounts](/docs/guides/proxies): Keep the coldkey offline and do daily work through scoped, revocable, optionally delayed delegate keys.
+  - [Signed requests](/docs/guides/signed-requests): Hotkey-signed HTTP between validators and miners — the btauth/1 wire format, framework recipes, and cross-language notes.
+  - [Signing with a browser extension](/docs/guides/extension-signing): Sign any transaction with Talisman, Polkadot.js, or another wallet extension — the private key never touches the machine running the CLI.
+  - [Signing with a Ledger](/docs/guides/ledger): Sign any transaction on a Ledger hardware wallet with the Polkadot generic app — the key never leaves the device, and every transaction is decoded and verified on its screen.
+  - EVM
+    - [EVM](/docs/guides/evm): Use the Bittensor EVM from the terminal — keys, funding, MetaMask, precompiles, and the ss58 ↔ h160 seam.
+    - [Deploy a contract](/docs/guides/evm/deploy-a-contract): From an empty directory to a live contract on the Bittensor EVM, with Hardhat or Remix.
+    - [Read chain state](/docs/guides/evm/read-chain-state): The metagraph, alpha, uid-lookup, and balance precompiles — free view calls from the CLI, Python, and Solidity.
+    - [Stake from the EVM](/docs/guides/evm/stake-from-evm): The staking-v2 precompile — CLI sugar, raw calls, and a contract that stakes what it receives.
+    - [Subnet and neuron operations](/docs/guides/evm/subnet-and-neuron): Register a subnet, register neurons, serve an axon, and set weights — from an EVM key.
+    - [Verify substrate keys](/docs/guides/evm/verify-keys): Check ed25519/sr25519 signatures in contracts, and associate an EVM key with a hotkey.
+  - [Local development](/docs/guides/local-development): Run a local subtensor chain and test wallets, subnets, and neurons against it.
+  - [Running a node](/docs/guides/running-a-node): Operate a mainnet or testnet subtensor node — lite or archive, with Docker or from source.
+  - [Timelock](/docs/guides/timelock): Seal data anyone can open at a known future time — nobody, including you, can open it early.
+- [Migrating from v9/v10](/docs/migration): Complete mapping from the legacy bittensor SDK (v10) and bittensor-cli (v9) to the unified v11 package — written so an LLM can upgrade your scripts from this page alone.
+- [Releases](/releases)
+- [Code](/code)
+
+- **Reference**
+- Transactions
+  - [Transactions](/docs/tx): Every state-changing operation: one page per intent, generated from the SDK.
+
+  - **AdminUtils**
+  - [set-hyperparameter](/docs/tx/set-hyperparameter): Set an owner-settable subnet hyperparameter (btcli `sudo set`).
+  - [set-mechanism-count](/docs/tx/set-mechanism-count): Set the number of mechanisms on a subnet.
+  - [set-subnet-emission-enabled](/docs/tx/set-subnet-emission-enabled): Enable or disable a subnet's pool-side TAO emission (root only).
+  - [trim-subnet](/docs/tx/trim-subnet): Trim a subnet to at most `max_n` UIDs (subnet owner).
+
+  - **Balances**
+  - [fund-evm-key](/docs/tx/fund-evm-key): Fund an EVM (h160) address with TAO from the signing coldkey.
+  - [transfer](/docs/tx/transfer): Transfer TAO from the coldkey to a destination address.
+  - [transfer-all](/docs/tx/transfer-all): Transfer the entire transferable balance to a destination address.
+
+  - **Crowdloan**
+  - [contribute-crowdloan](/docs/tx/contribute-crowdloan): Contribute TAO to an active crowdloan.
+  - [create-crowdloan](/docs/tx/create-crowdloan): Open a crowdloan raising up to `cap_tao` by `end` block.
+  - [dissolve-crowdloan](/docs/tx/dissolve-crowdloan): Dissolve a fully-refunded crowdloan (creator only).
+  - [finalize-crowdloan](/docs/tx/finalize-crowdloan): Finalize a crowdloan that reached its cap (creator only).
+  - [refund-crowdloan](/docs/tx/refund-crowdloan): Refund contributors of a non-finalized crowdloan (creator only).
+  - [set-crowdloan-max-contribution](/docs/tx/set-crowdloan-max-contribution): Set or clear the per-contributor max for a non-finalized crowdloan (creator only).
+  - [update-crowdloan-cap](/docs/tx/update-crowdloan-cap): Update the cap of a non-finalized crowdloan (creator only).
+  - [update-crowdloan-end](/docs/tx/update-crowdloan-end): Update the end block of a non-finalized crowdloan (creator only).
+  - [update-crowdloan-min-contribution](/docs/tx/update-crowdloan-min-contribution): Update the minimum contribution of a non-finalized crowdloan (creator only).
+  - [withdraw-crowdloan](/docs/tx/withdraw-crowdloan): Withdraw the signer's contribution from a non-finalized crowdloan.
+
+  - **EVM**
+  - [evm-withdraw](/docs/tx/evm-withdraw): Claim TAO deposited to the coldkey's truncated EVM mirror.
+
+  - **Multisig**
+  - [multisig-approve](/docs/tx/multisig-approve): Register approval for a multisig call (non-final approvals).
+  - [multisig-cancel](/docs/tx/multisig-cancel): Cancel an ongoing multisig operation (only the original depositor may).
+  - [multisig-execute](/docs/tx/multisig-execute): Approve and, if the threshold is met, execute a multisig call (final approval).
+  - [multisig-threshold-1](/docs/tx/multisig-threshold-1): Dispatch a 1-of-N multisig call immediately (single approval).
+
+  - **Proxy**
+  - [add-proxy](/docs/tx/add-proxy): Authorize a delegate key to sign calls on this account's behalf.
+  - [create-pure-proxy](/docs/tx/create-pure-proxy): Create a pure proxy: a fresh keyless account controlled via delegation.
+  - [execute-proxy-announced](/docs/tx/execute-proxy-announced): Execute a proxy call that was announced and has passed its delay.
+  - [kill-pure-proxy](/docs/tx/kill-pure-proxy): Close a pure proxy account and return its reserved deposit.
+  - [remove-proxies](/docs/tx/remove-proxies): Revoke every proxy delegation for the signing account at once.
+  - [remove-proxy](/docs/tx/remove-proxy): Revoke one proxy delegation.
+
+  - **SubtensorModule**
+  - [add-stake](/docs/tx/add-stake): Stake TAO from the coldkey onto a hotkey.
+  - [add-stake-limit](/docs/tx/add-stake-limit): Stake TAO with a limit price (slippage protection).
+  - [announce-coldkey-swap](/docs/tx/announce-coldkey-swap): Announce (commit to) a coldkey swap; executable after the chain's delay.
+  - [associate-evm-key](/docs/tx/associate-evm-key): Associate an EVM key with a hotkey on a subnet.
+  - [associate-hotkey](/docs/tx/associate-hotkey): Associate a hotkey with the signing coldkey.
+  - [burned-register](/docs/tx/burned-register): Register a hotkey on a subnet by recycling TAO.
+  - [claim-root](/docs/tx/claim-root): Claim accumulated root dividends from one or more subnets.
+  - [clear-coldkey-swap-announcement](/docs/tx/clear-coldkey-swap-announcement): Cancel a pending coldkey swap announcement (after the reannouncement delay).
+  - [commit-weights](/docs/tx/commit-weights): Timelock-encrypt and commit weights, forcing the commit-reveal path.
+  - [decrease-take](/docs/tx/decrease-take): Decrease the delegate take of a hotkey.
+  - [dispute-coldkey-swap](/docs/tx/dispute-coldkey-swap): Freeze this coldkey entirely until root resolves the dispute.
+  - [increase-take](/docs/tx/increase-take): Increase the delegate take of a hotkey.
+  - [lock-stake](/docs/tx/lock-stake): Lock alpha stake on a subnet, building conviction toward a hotkey.
+  - [move-lock](/docs/tx/move-lock): Move an existing lock from one hotkey to another on a subnet.
+  - [move-stake](/docs/tx/move-stake): Move alpha between hotkeys and/or subnets.
+  - [register-leased-network](/docs/tx/register-leased-network): Register a new crowdloan-funded leased subnet.
+  - [register-subnet](/docs/tx/register-subnet): Create a new subnet owned by the signing coldkey.
+  - [remove-stake](/docs/tx/remove-stake): Unstake alpha from a hotkey back to the coldkey.
+  - [remove-stake-limit](/docs/tx/remove-stake-limit): Unstake alpha with a limit price (slippage protection).
+  - [reset-axon](/docs/tx/reset-axon): Reset (stop serving) this hotkey's axon endpoint on a subnet.
+  - [reveal-weights](/docs/tx/reveal-weights): Reveal previously committed weights (legacy salt-based commit-reveal).
+  - [root-register](/docs/tx/root-register): Register a hotkey on the root network (netuid 0).
+  - [serve-axon](/docs/tx/serve-axon): Publish this hotkey's axon endpoint (ip:port) for a subnet.
+  - [serve-axon-tls](/docs/tx/serve-axon-tls): Publish this hotkey's axon endpoint with a neuron certificate.
+  - [serve-prometheus](/docs/tx/serve-prometheus): Publish this hotkey's prometheus metrics endpoint (ip:port) for a subnet.
+  - [set-auto-stake](/docs/tx/set-auto-stake): Auto-stake future mining rewards on a subnet to a chosen hotkey.
+  - [set-childkey-take](/docs/tx/set-childkey-take): Set the childkey take for a hotkey on a subnet.
+  - [set-children](/docs/tx/set-children): Assign child hotkeys with stake-weight proportions on a subnet.
+  - [set-identity](/docs/tx/set-identity): Publish an on-chain identity (name, links, description) for the coldkey.
+  - [set-perpetual-lock](/docs/tx/set-perpetual-lock): Enable or disable perpetual lock mode for a coldkey on a subnet.
+  - [set-root-claim-type](/docs/tx/set-root-claim-type): Set how a coldkey's root alpha emission is claimed.
+  - [set-subnet-identity](/docs/tx/set-subnet-identity): Publish identity metadata for a subnet (signer must be the subnet owner).
+  - [set-take](/docs/tx/set-take): Set the delegate take to an absolute value.
+  - [set-weights](/docs/tx/set-weights): Set validator weights, auto-selecting plaintext or commit-reveal.
+  - [stake-burn](/docs/tx/stake-burn): Buy back / burn stake via the stake-burn extrinsic.
+  - [start-call](/docs/tx/start-call): Activate a subnet (subtoken trading, epochs) as its owner.
+  - [swap-coldkey-announced](/docs/tx/swap-coldkey-announced): Execute a previously announced coldkey swap (after the delay has passed).
+  - [swap-hotkey](/docs/tx/swap-hotkey): Swap a hotkey for a new one (all subnets, or one netuid).
+  - [swap-stake](/docs/tx/swap-stake): Swap stake on one hotkey between two subnets.
+  - [terminate-lease](/docs/tx/terminate-lease): Terminate an ended lease and take subnet ownership (beneficiary only).
+  - [transfer-stake](/docs/tx/transfer-stake): Transfer stake ownership to another coldkey.
+  - [unstake-all](/docs/tx/unstake-all): Unstake everything from a hotkey across all subnets.
+  - [unstake-all-alpha](/docs/tx/unstake-all-alpha): Unstake all alpha from a hotkey across subnets (moves it to root).
+  - [update-symbol](/docs/tx/update-symbol): Update a subnet's symbol (from the chain's fixed catalog).
+
+  - **Utility**
+  - [batch](/docs/tx/batch): Execute several intents atomically in one extrinsic (all-or-nothing).
+- Queries
+  - [Queries](/docs/query): Every chain read: one page per query, generated from the SDK.
+
+  - **Accounts & keys**
+  - [balance](/docs/query/balance): Free TAO balance of a coldkey address.
+  - [balances](/docs/query/balances): Free TAO balance for several coldkey addresses in one batched request.
+  - [coldkey-swap-announcement](/docs/query/coldkey-swap-announcement): A coldkey's pending swap announcement (execute block, new-key hash, disputed), or None.
+  - [existential-deposit](/docs/query/existential-deposit): Minimum balance an account must keep to stay alive.
+  - [multisig](/docs/query/multisig): A pending multisig operation (opening timepoint, approvals, depositor), or None.
+  - [proxies](/docs/query/proxies): Proxy delegations of an account: who may sign on its behalf, and the reserved deposit.
+
+  - **Chain**
+  - [block-info](/docs/query/block-info): A block's hash, timestamp, and extrinsics (as module.function summaries).
+  - [block-time](/docs/query/block-time): Seconds per block, detected from the chain (12.0 mainnet, 0.25 fast-blocks).
+  - [is-fast-blocks](/docs/query/is-fast-blocks): Whether the chain runs fast blocks (0.25s slots, local/e2e testing mode).
+  - [mev-shield-next-key](/docs/query/mev-shield-next-key): The MEV Shield ML-KEM-768 public key (0x-hex) used to encrypt shielded txs, or None.
+  - [timestamp](/docs/query/timestamp): Current chain time (from the Timestamp pallet) and the block it was read at.
+  - [tx-rate-limit](/docs/query/tx-rate-limit): Global transaction rate limit in blocks.
+
+  - **Delegation**
+  - [children](/docs/query/children): Child hotkeys of a parent on a subnet, as (proportion, child_ss58) pairs.
+  - [delegate](/docs/query/delegate): Delegate info for one hotkey, or None if it is not a delegate.
+  - [delegate-take](/docs/query/delegate-take): A hotkey's delegate take (emission fraction it keeps) with the allowed min/max.
+  - [delegated](/docs/query/delegated): Every nomination a coldkey holds: (delegate, netuid, stake) per position.
+  - [delegates](/docs/query/delegates): Every delegate hotkey on the network, with take and registrations.
+  - [is-delegate](/docs/query/is-delegate): Whether a hotkey is a delegate.
+  - [parents](/docs/query/parents): Parent hotkeys of a child on a subnet, as (proportion, parent_ss58) pairs.
+  - [pending-children](/docs/query/pending-children): Proposed child hotkeys of a parent still in cooldown, and when they apply.
+
+  - **Epochs & timing**
+  - [blocks-since-last-step](/docs/query/blocks-since-last-step): Blocks since the subnet's last epoch step ran.
+  - [blocks-since-last-update](/docs/query/blocks-since-last-update): Blocks since a neuron last set or committed weights on a subnet
+  - [blocks-until-next-epoch](/docs/query/blocks-until-next-epoch): Blocks until the subnet's next epoch fires, or None if tempo is 0.
+  - [epoch-status](/docs/query/epoch-status): Where a subnet is in its epoch cycle, in one block-pinned read.
+  - [next-epoch-start-block](/docs/query/next-epoch-start-block): Block at which the subnet's next epoch is expected to fire, or None if tempo is 0.
+
+  - **Hyperparameters**
+  - [difficulty](/docs/query/difficulty): Current PoW registration difficulty for a subnet.
+  - [immunity-period](/docs/query/immunity-period): Blocks a newly registered neuron is immune from deregistration.
+  - [max-weight-limit](/docs/query/max-weight-limit): Normalized-fraction cap on any single weight: after the chain normalizes the submitted vector, no weight may exceed max_weight_limit/65535 of the total. Not a raw u16 ceiling per weight.
+  - [min-allowed-weights](/docs/query/min-allowed-weights): Minimum number of weights a validator must set on a subnet. A pure self-weight (a single entry pointing at the caller's own uid) bypasses the minimum, and the subnet owner bypasses validator-permit rules.
+  - [reveal-period](/docs/query/reveal-period): Commit-reveal reveal window, in epochs, for a subnet.
+  - [subnet-emission-enabled](/docs/query/subnet-emission-enabled): Root-controlled pool-side TAO emission flag for a subnet (1 = enabled). When 0, the subnet earns no TAO emission share even while subnet_is_active is true; only root can flip it (see the set_subnet_emission_enabled intent).
+  - [weights-rate-limit](/docs/query/weights-rate-limit): Blocks a hotkey must wait between weight sets on a subnet.
+
+  - **Identity & commitments**
+  - [commitment](/docs/query/commitment): The commitment a hotkey has published on a subnet, or None.
+  - [commitments](/docs/query/commitments): Every commitment on a subnet, newest first: hotkey, uid, content, block, age, reveal state.
+  - [hotkey-identities](/docs/query/hotkey-identities): On-chain identities for hotkeys (via each hotkey's owner coldkey), keyed by hotkey.
+  - [identity](/docs/query/identity): The on-chain identity of a coldkey (name, links, description), or None.
+  - [revealed-commitment](/docs/query/revealed-commitment): The revealed (timelock-decrypted) commitment for a hotkey on a subnet, or None.
+
+  - **Leases & crowdloans**
+  - [crowdloan](/docs/query/crowdloan): A crowdloan's state (creator, deposit, raised, cap, end, target/call), or None.
+  - [crowdloan-contributors](/docs/query/crowdloan-contributors): Contributors and amounts for a crowdloan, with amounts in TAO.
+  - [crowdloans](/docs/query/crowdloans): All crowdloans on chain (id and summary fields).
+  - [lease](/docs/query/lease): A subnet lease by id (beneficiary, emissions share, end block, netuid, cost), or None.
+  - [leases](/docs/query/leases): Every subnet lease on the network.
+
+  - **Locks & conviction**
+  - [coldkey-lock](/docs/query/coldkey-lock): Lock state for a coldkey on a subnet, or None if no lock exists.
+  - [hotkey-conviction](/docs/query/hotkey-conviction): Conviction metrics for a hotkey on a subnet.
+  - [locks-for-coldkey](/docs/query/locks-for-coldkey): Every lock a coldkey holds (one per subnet), rolled forward to now.
+  - [most-convicted-hotkey](/docs/query/most-convicted-hotkey): Hotkey with the highest conviction on a subnet, if any.
+  - [subnet-convictions](/docs/query/subnet-convictions): Every hotkey with locked stake on a subnet, rolled forward to now.
+
+  - **Neurons & registration**
+  - [associated-evm-key](/docs/query/associated-evm-key): The EVM address associated with a neuron (by netuid + uid) and the block it was set.
+  - [hotkey-owner](/docs/query/hotkey-owner): The coldkey that owns a hotkey, or None if unowned.
+  - [netuids-for-hotkey](/docs/query/netuids-for-hotkey): Every subnet a hotkey is registered on, as a sorted list of netuids.
+  - [neurons](/docs/query/neurons): Every neuron on a subnet in ONE runtime-API call (the metagraph fast path).
+  - [owned-hotkeys](/docs/query/owned-hotkeys): Every hotkey owned by a coldkey (the reverse of `hotkey_owner`).
+  - [uid](/docs/query/uid): UID of a hotkey on a subnet, or None if not registered there.
+
+  - **Prices & swaps**
+  - [alpha-price](/docs/query/alpha-price): Current spot alpha price for a subnet, as TAO per alpha.
+  - [alpha-prices](/docs/query/alpha-prices): Spot alpha price for every subnet, as TAO per alpha keyed by netuid.
+  - [quote-stake](/docs/query/quote-stake): Simulate staking `amount_tao` TAO into a subnet: alpha out, fee, and slippage.
+  - [quote-unstake](/docs/query/quote-unstake): Simulate unstaking `amount_alpha` alpha from a subnet: TAO out, fee, and slippage.
+
+  - **Staking**
+  - [auto-stake](/docs/query/auto-stake): The hotkey a coldkey auto-stakes its rewards to on a subnet, or None if unset.
+  - [auto-stake-all](/docs/query/auto-stake-all): Every auto-stake destination configured for a coldkey.
+  - [root-claim-type](/docs/query/root-claim-type): How a coldkey claims root alpha emission: Swap, Keep, or KeepSubnets(+subnets).
+  - [stake](/docs/query/stake): Alpha staked by a coldkey to a hotkey on a subnet (TAO when netuid is 0).
+  - [stake-for-coldkey](/docs/query/stake-for-coldkey): Every stake position held by a coldkey, across all hotkeys and subnets.
+  - [stake-for-coldkeys](/docs/query/stake-for-coldkeys): Every stake position for several coldkeys at once, in one runtime call.
+  - [stake-value-for-coldkey](/docs/query/stake-value-for-coldkey): A coldkey's stake marked to TAO at spot prices (excludes slippage/fees), block-pinned.
+  - [stake-value-for-coldkeys](/docs/query/stake-value-for-coldkeys): Spot-price stake valuation for several coldkeys at once, at one block.
+  - [staking-hotkeys](/docs/query/staking-hotkeys): Every hotkey a coldkey has stake with, owned or nominated.
+
+  - **Subnets**
+  - [burn](/docs/query/burn): Current burn (recycle) cost to register on a subnet.
+  - [commit-reveal-enabled](/docs/query/commit-reveal-enabled): Whether commit-reveal weights are enabled on a subnet.
+  - [mechanism-count](/docs/query/mechanism-count): Current mechanism count configured for a subnet.
+  - [mechanism-emission-split](/docs/query/mechanism-emission-split): Emission split between mechanisms on a subnet.
+  - [metagraph](/docs/query/metagraph): The full metagraph for a subnet in one call (stakes, ranks, emissions, axons, ...).
+  - [subnet](/docs/query/subnet): Tempo, burn, and neuron count for one subnet (the three reads run concurrently).
+  - [subnet-hyperparameters](/docs/query/subnet-hyperparameters): All hyperparameters for a subnet, as a flat name -> raw value mapping.
+  - [subnet-identity](/docs/query/subnet-identity): The identity metadata of a subnet, or None.
+  - [subnet-names](/docs/query/subnet-names): Registered name of every subnet that published an identity, keyed by netuid.
+  - [subnet-registration-cost](/docs/query/subnet-registration-cost): Current cost to register a new subnet.
+  - [subnet-start-schedule](/docs/query/subnet-start-schedule): When a registered subnet can call `start_call`.
+  - [subnets](/docs/query/subnets): Info for every subnet, fetched in four batched map queries rather than
+  - [token-symbols](/docs/query/token-symbols): Chain-registered token symbol of every subnet, keyed by netuid.
+
+  - **Weights & bonds**
+  - [bonds](/docs/query/bonds): Validator bond rows as `{validator_uid: {miner_uid: bond}}`, scaled to 0..1.
+  - [timelocked-weight-commits](/docs/query/timelocked-weight-commits): Pending (still-encrypted) commit-reveal weight commits, grouped by epoch.
+  - [weights](/docs/query/weights): Validator weight rows as `{validator_uid: {miner_uid: fraction}}`, each row summing to 1.
+- Errors
+  - [Errors](/docs/errors): Every failure carries a machine-readable code and a remediation hint.
+  - [insufficient_balance](/docs/errors/insufficient-balance): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+  - [insufficient_liquidity](/docs/errors/insufficient-liquidity): The pool cannot absorb this trade; reduce the amount or split it into smaller steps
+  - [rate_limited](/docs/errors/rate-limited): Wait for the rate-limit window to pass, then retry
+  - [not_registered](/docs/errors/not-registered): Register the hotkey on this subnet first with `btcli subnets register`
+  - [not_authorized](/docs/errors/not-authorized): Sign with the key or origin that owns the target object, then retry
+  - [already_exists](/docs/errors/already-exists): The object or state already exists; treat the goal as met or pick a different target
+  - [not_found](/docs/errors/not-found): The referenced object is not on-chain; check the identifier
+  - [subnet_not_exists](/docs/errors/subnet-not-exists): Use an existing netuid; `btcli subnets list` shows valid ones
+  - [subtoken_disabled](/docs/errors/subtoken-disabled): The subnet is not active yet; wait for start_call
+  - [disabled](/docs/errors/disabled): This call or feature is switched off on this network
+  - [too_early](/docs/errors/too-early): The required window has not opened yet; wait some blocks and retry
+  - [expired](/docs/errors/expired): The window has closed; restart the flow with fresh state
+  - [limit_exceeded](/docs/errors/limit-exceeded): A chain-side capacity limit was hit; reduce the size or count of the request
+  - [unit_mismatch](/docs/errors/unit-mismatch): Match the Balance netuid to the operation's currency
+  - [invalid_argument](/docs/errors/invalid-argument): Check the argument values against the operation schema
+  - [policy_violation](/docs/errors/policy-violation): The action exceeds a configured safety policy
+  - [internal](/docs/errors/internal): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+  - [unknown](/docs/errors/unknown): Inspect the message for details
+  - Chain errors
+    - [Chain errors](/docs/errors/chain): Every exact chain error name, classified to a semantic code.
+    - [AccountNotAllowedCommit](/docs/errors/chain/AccountNotAllowedCommit): Sign with the key or origin that owns the target object, then retry
+    - [AccountRejectsLockedAlpha](/docs/errors/chain/AccountRejectsLockedAlpha): Check the argument values against the operation schema
+    - [ActiveLockExists](/docs/errors/chain/ActiveLockExists): The object or state already exists; treat the goal as met or pick a different target
+    - [ActivityCutoffFactorMilliOutOfBounds](/docs/errors/chain/ActivityCutoffFactorMilliOutOfBounds): Check the argument values against the operation schema
+    - [ActivityCutoffTooLow](/docs/errors/chain/ActivityCutoffTooLow): Check the argument values against the operation schema
+    - [AddStakeBurnRateLimitExceeded](/docs/errors/chain/AddStakeBurnRateLimitExceeded): Wait for the rate-limit window to pass, then retry
+    - [AdminActionProhibitedDuringWeightsWindow](/docs/errors/chain/AdminActionProhibitedDuringWeightsWindow): The required window has not opened yet; wait some blocks and retry
+    - [AllNetworksInImmunity](/docs/errors/chain/AllNetworksInImmunity): The required window has not opened yet; wait some blocks and retry
+    - [AlphaHighTooLow](/docs/errors/chain/AlphaHighTooLow): Check the argument values against the operation schema
+    - [AlphaLowOutOfRange](/docs/errors/chain/AlphaLowOutOfRange): Check the argument values against the operation schema
+    - [AlreadyApproved](/docs/errors/chain/AlreadyApproved): The object or state already exists; treat the goal as met or pick a different target
+    - [AlreadyDeposited](/docs/errors/chain/AlreadyDeposited): The object or state already exists; treat the goal as met or pick a different target
+    - [AlreadyFinalized](/docs/errors/chain/AlreadyFinalized): The object or state already exists; treat the goal as met or pick a different target
+    - [AlreadyFinalizing](/docs/errors/chain/AlreadyFinalizing): The object or state already exists; treat the goal as met or pick a different target
+    - [AlreadyNoted](/docs/errors/chain/AlreadyNoted): The object or state already exists; treat the goal as met or pick a different target
+    - [AlreadyStored](/docs/errors/chain/AlreadyStored): The object or state already exists; treat the goal as met or pick a different target
+    - [AmountTooLow](/docs/errors/chain/AmountTooLow): Check the argument values against the operation schema
+    - [AnnouncedColdkeyHashDoesNotMatch](/docs/errors/chain/AnnouncedColdkeyHashDoesNotMatch): Check the argument values against the operation schema
+    - [AnnouncementDepositInvariantViolated](/docs/errors/chain/AnnouncementDepositInvariantViolated): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [ArithmeticOverflow](/docs/errors/chain/ArithmeticOverflow): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [AutoEpochAlreadyImminent](/docs/errors/chain/AutoEpochAlreadyImminent): The object or state already exists; treat the goal as met or pick a different target
+    - [BadEncKeyLen](/docs/errors/chain/BadEncKeyLen): Check the argument values against the operation schema
+    - [BalanceLow](/docs/errors/chain/BalanceLow): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [BalanceWithdrawalError](/docs/errors/chain/BalanceWithdrawalError): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [BeneficiaryDoesNotOwnHotkey](/docs/errors/chain/BeneficiaryDoesNotOwnHotkey): Sign with the key or origin that owns the target object, then retry
+    - [BlockDurationTooLong](/docs/errors/chain/BlockDurationTooLong): Check the argument values against the operation schema
+    - [BlockDurationTooShort](/docs/errors/chain/BlockDurationTooShort): Check the argument values against the operation schema
+    - [BondsMovingAverageMaxReached](/docs/errors/chain/BondsMovingAverageMaxReached): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [CallDisabled](/docs/errors/chain/CallDisabled): This call or feature is switched off on this network
+    - [CallFiltered](/docs/errors/chain/CallFiltered): Sign with the key or origin that owns the target object, then retry
+    - [CallUnavailable](/docs/errors/chain/CallUnavailable): The referenced object is not on-chain; check the identifier
+    - [CanNotSetRootNetworkWeights](/docs/errors/chain/CanNotSetRootNetworkWeights): Check the argument values against the operation schema
+    - [CannotAddSelfAsDelegateDependency](/docs/errors/chain/CannotAddSelfAsDelegateDependency): Check the argument values against the operation schema
+    - [CannotAffordLockCost](/docs/errors/chain/CannotAffordLockCost): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [CannotBurnOrRecycleOnRootSubnet](/docs/errors/chain/CannotBurnOrRecycleOnRootSubnet): Check the argument values against the operation schema
+    - [CannotEndInPast](/docs/errors/chain/CannotEndInPast): Check the argument values against the operation schema
+    - [CannotReleaseYet](/docs/errors/chain/CannotReleaseYet): The required window has not opened yet; wait some blocks and retry
+    - [CannotUseSystemAccount](/docs/errors/chain/CannotUseSystemAccount): Sign with the key or origin that owns the target object, then retry
+    - [CapNotRaised](/docs/errors/chain/CapNotRaised): The required window has not opened yet; wait some blocks and retry
+    - [CapRaised](/docs/errors/chain/CapRaised): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [CapTooLow](/docs/errors/chain/CapTooLow): Check the argument values against the operation schema
+    - [ChainIdMismatch](/docs/errors/chain/ChainIdMismatch): Check the argument values against the operation schema
+    - [ChangePending](/docs/errors/chain/ChangePending): The object or state already exists; treat the goal as met or pick a different target
+    - [ChildParentInconsistency](/docs/errors/chain/ChildParentInconsistency): Check the argument values against the operation schema
+    - [CodeInUse](/docs/errors/chain/CodeInUse): Check the argument values against the operation schema
+    - [CodeInfoNotFound](/docs/errors/chain/CodeInfoNotFound): The referenced object is not on-chain; check the identifier
+    - [CodeNotFound](/docs/errors/chain/CodeNotFound): The referenced object is not on-chain; check the identifier
+    - [CodeRejected](/docs/errors/chain/CodeRejected): Check the argument values against the operation schema
+    - [CodeTooLarge](/docs/errors/chain/CodeTooLarge): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [ColdKeyAlreadyAssociated](/docs/errors/chain/ColdKeyAlreadyAssociated): The object or state already exists; treat the goal as met or pick a different target
+    - [ColdkeySwapAlreadyDisputed](/docs/errors/chain/ColdkeySwapAlreadyDisputed): The object or state already exists; treat the goal as met or pick a different target
+    - [ColdkeySwapAnnounced](/docs/errors/chain/ColdkeySwapAnnounced): The object or state already exists; treat the goal as met or pick a different target
+    - [ColdkeySwapAnnouncementNotFound](/docs/errors/chain/ColdkeySwapAnnouncementNotFound): The referenced object is not on-chain; check the identifier
+    - [ColdkeySwapClearTooEarly](/docs/errors/chain/ColdkeySwapClearTooEarly): The required window has not opened yet; wait some blocks and retry
+    - [ColdkeySwapDisputed](/docs/errors/chain/ColdkeySwapDisputed): Sign with the key or origin that owns the target object, then retry
+    - [ColdkeySwapReannouncedTooEarly](/docs/errors/chain/ColdkeySwapReannouncedTooEarly): The required window has not opened yet; wait some blocks and retry
+    - [ColdkeySwapTooEarly](/docs/errors/chain/ColdkeySwapTooEarly): The required window has not opened yet; wait some blocks and retry
+    - [CommitRevealDisabled](/docs/errors/chain/CommitRevealDisabled): This call or feature is switched off on this network
+    - [CommitRevealEnabled](/docs/errors/chain/CommitRevealEnabled): This call or feature is switched off on this network
+    - [CommittingWeightsTooFast](/docs/errors/chain/CommittingWeightsTooFast): Wait for the rate-limit window to pass, then retry
+    - [ContractNotFound](/docs/errors/chain/ContractNotFound): The referenced object is not on-chain; check the identifier
+    - [ContractReverted](/docs/errors/chain/ContractReverted): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [ContractTrapped](/docs/errors/chain/ContractTrapped): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [ContributionPeriodEnded](/docs/errors/chain/ContributionPeriodEnded): The window has closed; restart the flow with fresh state
+    - [ContributionPeriodNotEnded](/docs/errors/chain/ContributionPeriodNotEnded): The required window has not opened yet; wait some blocks and retry
+    - [ContributionTooLow](/docs/errors/chain/ContributionTooLow): Check the argument values against the operation schema
+    - [CreateOriginNotAllowed](/docs/errors/chain/CreateOriginNotAllowed): Sign with the key or origin that owns the target object, then retry
+    - [CurrencyError](/docs/errors/chain/CurrencyError): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [DeadAccount](/docs/errors/chain/DeadAccount): The referenced object is not on-chain; check the identifier
+    - [DecodingFailed](/docs/errors/chain/DecodingFailed): Check the argument values against the operation schema
+    - [DelegateDependencyAlreadyExists](/docs/errors/chain/DelegateDependencyAlreadyExists): The object or state already exists; treat the goal as met or pick a different target
+    - [DelegateDependencyNotFound](/docs/errors/chain/DelegateDependencyNotFound): The referenced object is not on-chain; check the identifier
+    - [DelegateTakeTooHigh](/docs/errors/chain/DelegateTakeTooHigh): Check the argument values against the operation schema
+    - [DelegateTakeTooLow](/docs/errors/chain/DelegateTakeTooLow): Check the argument values against the operation schema
+    - [DelegateTxRateLimitExceeded](/docs/errors/chain/DelegateTxRateLimitExceeded): Wait for the rate-limit window to pass, then retry
+    - [DeltaZero](/docs/errors/chain/DeltaZero): Check the argument values against the operation schema
+    - [DepositCannotBeWithdrawn](/docs/errors/chain/DepositCannotBeWithdrawn): Check the argument values against the operation schema
+    - [DepositTooLow](/docs/errors/chain/DepositTooLow): Check the argument values against the operation schema
+    - [Deprecated](/docs/errors/chain/Deprecated): This call or feature is switched off on this network
+    - [DisabledTemporarily](/docs/errors/chain/DisabledTemporarily): This call or feature is switched off on this network
+    - [DrandConnectionFailure](/docs/errors/chain/DrandConnectionFailure): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [Duplicate](/docs/errors/chain/Duplicate): The object or state already exists; treat the goal as met or pick a different target
+    - [DuplicateChild](/docs/errors/chain/DuplicateChild): Check the argument values against the operation schema
+    - [DuplicateContract](/docs/errors/chain/DuplicateContract): The object or state already exists; treat the goal as met or pick a different target
+    - [DuplicateOffenceReport](/docs/errors/chain/DuplicateOffenceReport): The object or state already exists; treat the goal as met or pick a different target
+    - [DuplicateOrderInBatch](/docs/errors/chain/DuplicateOrderInBatch): Check the argument values against the operation schema
+    - [DuplicateUids](/docs/errors/chain/DuplicateUids): Check the argument values against the operation schema
+    - [DynamicTempoBlockedByCommitReveal](/docs/errors/chain/DynamicTempoBlockedByCommitReveal): This call or feature is switched off on this network
+    - [Entered](/docs/errors/chain/Entered): The object or state already exists; treat the goal as met or pick a different target
+    - [EpochTriggerAlreadyPending](/docs/errors/chain/EpochTriggerAlreadyPending): The object or state already exists; treat the goal as met or pick a different target
+    - [EvmKeyAssociateRateLimitExceeded](/docs/errors/chain/EvmKeyAssociateRateLimitExceeded): Wait for the rate-limit window to pass, then retry
+    - [EvmKeyAssociationLimitExceeded](/docs/errors/chain/EvmKeyAssociationLimitExceeded): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [ExistentialDeposit](/docs/errors/chain/ExistentialDeposit): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [ExistingVestingSchedule](/docs/errors/chain/ExistingVestingSchedule): The object or state already exists; treat the goal as met or pick a different target
+    - [Exited](/docs/errors/chain/Exited): The object or state already exists; treat the goal as met or pick a different target
+    - [ExpectedBeneficiaryOrigin](/docs/errors/chain/ExpectedBeneficiaryOrigin): Sign with the key or origin that owns the target object, then retry
+    - [Expendability](/docs/errors/chain/Expendability): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [ExpiredWeightCommit](/docs/errors/chain/ExpiredWeightCommit): The window has closed; restart the flow with fresh state
+    - [FailedToExtractRuntimeVersion](/docs/errors/chain/FailedToExtractRuntimeVersion): Check the argument values against the operation schema
+    - [FailedToSchedule](/docs/errors/chain/FailedToSchedule): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [FaucetDisabled](/docs/errors/chain/FaucetDisabled): This call or feature is switched off on this network
+    - [FeeOverflow](/docs/errors/chain/FeeOverflow): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [FeeRateTooHigh](/docs/errors/chain/FeeRateTooHigh): Check the argument values against the operation schema
+    - [FirstEmissionBlockNumberAlreadySet](/docs/errors/chain/FirstEmissionBlockNumberAlreadySet): The object or state already exists; treat the goal as met or pick a different target
+    - [GasLimitTooHigh](/docs/errors/chain/GasLimitTooHigh): Check the argument values against the operation schema
+    - [GasLimitTooLow](/docs/errors/chain/GasLimitTooLow): Check the argument values against the operation schema
+    - [GasPriceTooLow](/docs/errors/chain/GasPriceTooLow): Check the argument values against the operation schema
+    - [HotKeyAccountNotExists](/docs/errors/chain/HotKeyAccountNotExists): Register the hotkey on this subnet first with `btcli subnets register`
+    - [HotKeyAlreadyDelegate](/docs/errors/chain/HotKeyAlreadyDelegate): The object or state already exists; treat the goal as met or pick a different target
+    - [HotKeyAlreadyRegisteredInSubNet](/docs/errors/chain/HotKeyAlreadyRegisteredInSubNet): The object or state already exists; treat the goal as met or pick a different target
+    - [HotKeyNotRegisteredInNetwork](/docs/errors/chain/HotKeyNotRegisteredInNetwork): Register the hotkey on this subnet first with `btcli subnets register`
+    - [HotKeyNotRegisteredInSubNet](/docs/errors/chain/HotKeyNotRegisteredInSubNet): Register the hotkey on this subnet first with `btcli subnets register`
+    - [HotKeySetTxRateLimitExceeded](/docs/errors/chain/HotKeySetTxRateLimitExceeded): Wait for the rate-limit window to pass, then retry
+    - [HotKeySwapOnSubnetIntervalNotPassed](/docs/errors/chain/HotKeySwapOnSubnetIntervalNotPassed): Wait for the rate-limit window to pass, then retry
+    - [IncorrectCommitRevealVersion](/docs/errors/chain/IncorrectCommitRevealVersion): Check the argument values against the operation schema
+    - [IncorrectPartialFillAmount](/docs/errors/chain/IncorrectPartialFillAmount): Check the argument values against the operation schema
+    - [IncorrectWeightVersionKey](/docs/errors/chain/IncorrectWeightVersionKey): Check the argument values against the operation schema
+    - [Indeterministic](/docs/errors/chain/Indeterministic): Check the argument values against the operation schema
+    - [InputForwarded](/docs/errors/chain/InputForwarded): Check the argument values against the operation schema
+    - [InputLengthsUnequal](/docs/errors/chain/InputLengthsUnequal): Check the argument values against the operation schema
+    - [InsufficientAlphaBalance](/docs/errors/chain/InsufficientAlphaBalance): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [InsufficientBalance](/docs/errors/chain/InsufficientBalance): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [InsufficientInputAmount](/docs/errors/chain/InsufficientInputAmount): Check the argument values against the operation schema
+    - [InsufficientLiquidity](/docs/errors/chain/InsufficientLiquidity): The pool cannot absorb this trade; reduce the amount or split it into smaller steps
+    - [InsufficientStakeForLock](/docs/errors/chain/InsufficientStakeForLock): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [InsufficientTaoBalance](/docs/errors/chain/InsufficientTaoBalance): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [InvalidCallFlags](/docs/errors/chain/InvalidCallFlags): Check the argument values against the operation schema
+    - [InvalidChainId](/docs/errors/chain/InvalidChainId): Check the argument values against the operation schema
+    - [InvalidChild](/docs/errors/chain/InvalidChild): Check the argument values against the operation schema
+    - [InvalidChildkeyTake](/docs/errors/chain/InvalidChildkeyTake): Check the argument values against the operation schema
+    - [InvalidCrowdloanId](/docs/errors/chain/InvalidCrowdloanId): The referenced object is not on-chain; check the identifier
+    - [InvalidDerivedAccount](/docs/errors/chain/InvalidDerivedAccount): Check the argument values against the operation schema
+    - [InvalidDerivedAccountId](/docs/errors/chain/InvalidDerivedAccountId): Check the argument values against the operation schema
+    - [InvalidDifficulty](/docs/errors/chain/InvalidDifficulty): Check the argument values against the operation schema
+    - [InvalidEquivocationProof](/docs/errors/chain/InvalidEquivocationProof): Check the argument values against the operation schema
+    - [InvalidFinalizationConfig](/docs/errors/chain/InvalidFinalizationConfig): Check the argument values against the operation schema
+    - [InvalidIdentity](/docs/errors/chain/InvalidIdentity): Check the argument values against the operation schema
+    - [InvalidIpAddress](/docs/errors/chain/InvalidIpAddress): Check the argument values against the operation schema
+    - [InvalidIpType](/docs/errors/chain/InvalidIpType): Check the argument values against the operation schema
+    - [InvalidKeyOwnershipProof](/docs/errors/chain/InvalidKeyOwnershipProof): Check the argument values against the operation schema
+    - [InvalidLeaseBeneficiary](/docs/errors/chain/InvalidLeaseBeneficiary): Check the argument values against the operation schema
+    - [InvalidLiquidityValue](/docs/errors/chain/InvalidLiquidityValue): Check the argument values against the operation schema
+    - [InvalidNonce](/docs/errors/chain/InvalidNonce): Check the argument values against the operation schema
+    - [InvalidNumRootClaim](/docs/errors/chain/InvalidNumRootClaim): Check the argument values against the operation schema
+    - [InvalidOrigin](/docs/errors/chain/InvalidOrigin): Sign with the key or origin that owns the target object, then retry
+    - [InvalidPort](/docs/errors/chain/InvalidPort): Check the argument values against the operation schema
+    - [InvalidRecoveredPublicKey](/docs/errors/chain/InvalidRecoveredPublicKey): Check the argument values against the operation schema
+    - [InvalidRevealCommitHashNotMatch](/docs/errors/chain/InvalidRevealCommitHashNotMatch): Check the argument values against the operation schema
+    - [InvalidRevealRound](/docs/errors/chain/InvalidRevealRound): The window has closed; restart the flow with fresh state
+    - [InvalidRootClaimThreshold](/docs/errors/chain/InvalidRootClaimThreshold): Check the argument values against the operation schema
+    - [InvalidRoundNumber](/docs/errors/chain/InvalidRoundNumber): Check the argument values against the operation schema
+    - [InvalidSchedule](/docs/errors/chain/InvalidSchedule): Check the argument values against the operation schema
+    - [InvalidSeal](/docs/errors/chain/InvalidSeal): Check the argument values against the operation schema
+    - [InvalidSignature](/docs/errors/chain/InvalidSignature): Check the argument values against the operation schema
+    - [InvalidSpecName](/docs/errors/chain/InvalidSpecName): Check the argument values against the operation schema
+    - [InvalidSubnetNumber](/docs/errors/chain/InvalidSubnetNumber): Check the argument values against the operation schema
+    - [InvalidTickRange](/docs/errors/chain/InvalidTickRange): Check the argument values against the operation schema
+    - [InvalidValue](/docs/errors/chain/InvalidValue): Check the argument values against the operation schema
+    - [InvalidVotingPowerEmaAlpha](/docs/errors/chain/InvalidVotingPowerEmaAlpha): Check the argument values against the operation schema
+    - [InvalidWorkBlock](/docs/errors/chain/InvalidWorkBlock): Check the argument values against the operation schema
+    - [IssuanceDeactivated](/docs/errors/chain/IssuanceDeactivated): This call or feature is switched off on this network
+    - [LeaseCannotEndInThePast](/docs/errors/chain/LeaseCannotEndInThePast): Check the argument values against the operation schema
+    - [LeaseDoesNotExist](/docs/errors/chain/LeaseDoesNotExist): The referenced object is not on-chain; check the identifier
+    - [LeaseHasNoEndBlock](/docs/errors/chain/LeaseHasNoEndBlock): Check the argument values against the operation schema
+    - [LeaseHasNotEnded](/docs/errors/chain/LeaseHasNotEnded): The required window has not opened yet; wait some blocks and retry
+    - [LeaseNetuidNotFound](/docs/errors/chain/LeaseNetuidNotFound): The referenced object is not on-chain; check the identifier
+    - [LimitOrdersDisabled](/docs/errors/chain/LimitOrdersDisabled): This call or feature is switched off on this network
+    - [LiquidAlphaDisabled](/docs/errors/chain/LiquidAlphaDisabled): This call or feature is switched off on this network
+    - [LiquidityRestrictions](/docs/errors/chain/LiquidityRestrictions): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [LockHotkeyMismatch](/docs/errors/chain/LockHotkeyMismatch): Check the argument values against the operation schema
+    - [LockIdOverFlow](/docs/errors/chain/LockIdOverFlow): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [MaxAllowedUIdsLessThanCurrentUIds](/docs/errors/chain/MaxAllowedUIdsLessThanCurrentUIds): Check the argument values against the operation schema
+    - [MaxAllowedUidsGreaterThanDefaultMaxAllowedUids](/docs/errors/chain/MaxAllowedUidsGreaterThanDefaultMaxAllowedUids): Check the argument values against the operation schema
+    - [MaxAllowedUidsLessThanMinAllowedUids](/docs/errors/chain/MaxAllowedUidsLessThanMinAllowedUids): Check the argument values against the operation schema
+    - [MaxCallDepthReached](/docs/errors/chain/MaxCallDepthReached): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [MaxContributionReached](/docs/errors/chain/MaxContributionReached): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [MaxContributorsReached](/docs/errors/chain/MaxContributorsReached): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [MaxDelegateDependenciesReached](/docs/errors/chain/MaxDelegateDependenciesReached): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [MaxValidatorsLargerThanMaxUIds](/docs/errors/chain/MaxValidatorsLargerThanMaxUIds): Check the argument values against the operation schema
+    - [MaxWeightExceeded](/docs/errors/chain/MaxWeightExceeded): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [MaxWeightTooLow](/docs/errors/chain/MaxWeightTooLow): Check the argument values against the operation schema
+    - [MaximumContributionTooLow](/docs/errors/chain/MaximumContributionTooLow): Check the argument values against the operation schema
+    - [MechanismDoesNotExist](/docs/errors/chain/MechanismDoesNotExist): Use an existing netuid; `btcli subnets list` shows valid ones
+    - [MigrationInProgress](/docs/errors/chain/MigrationInProgress): The required window has not opened yet; wait some blocks and retry
+    - [MinAllowedUidsGreaterThanCurrentUids](/docs/errors/chain/MinAllowedUidsGreaterThanCurrentUids): Check the argument values against the operation schema
+    - [MinAllowedUidsGreaterThanMaxAllowedUids](/docs/errors/chain/MinAllowedUidsGreaterThanMaxAllowedUids): Check the argument values against the operation schema
+    - [MinimumContributionTooHigh](/docs/errors/chain/MinimumContributionTooHigh): Check the argument values against the operation schema
+    - [MinimumContributionTooLow](/docs/errors/chain/MinimumContributionTooLow): Check the argument values against the operation schema
+    - [MinimumThreshold](/docs/errors/chain/MinimumThreshold): Check the argument values against the operation schema
+    - [MultiBlockMigrationsOngoing](/docs/errors/chain/MultiBlockMigrationsOngoing): The required window has not opened yet; wait some blocks and retry
+    - [Named](/docs/errors/chain/Named): Check the argument values against the operation schema
+    - [NeedWaitingMoreBlocksToStarCall](/docs/errors/chain/NeedWaitingMoreBlocksToStarCall): The required window has not opened yet; wait some blocks and retry
+    - [NegativeSigmoidSteepness](/docs/errors/chain/NegativeSigmoidSteepness): Check the argument values against the operation schema
+    - [NetworkDissolveAlreadyQueued](/docs/errors/chain/NetworkDissolveAlreadyQueued): The object or state already exists; treat the goal as met or pick a different target
+    - [NetworkTxRateLimitExceeded](/docs/errors/chain/NetworkTxRateLimitExceeded): Wait for the rate-limit window to pass, then retry
+    - [NeuronNoValidatorPermit](/docs/errors/chain/NeuronNoValidatorPermit): Sign with the key or origin that owns the target object, then retry
+    - [NewColdKeyIsHotkey](/docs/errors/chain/NewColdKeyIsHotkey): Check the argument values against the operation schema
+    - [NewHotKeyIsSameWithOld](/docs/errors/chain/NewHotKeyIsSameWithOld): Check the argument values against the operation schema
+    - [NewHotKeyNotCleanForRootSwap](/docs/errors/chain/NewHotKeyNotCleanForRootSwap): Check the argument values against the operation schema
+    - [NoApprovalsNeeded](/docs/errors/chain/NoApprovalsNeeded): Check the argument values against the operation schema
+    - [NoChainExtension](/docs/errors/chain/NoChainExtension): This call or feature is switched off on this network
+    - [NoContribution](/docs/errors/chain/NoContribution): The referenced object is not on-chain; check the identifier
+    - [NoDeposit](/docs/errors/chain/NoDeposit): The referenced object is not on-chain; check the identifier
+    - [NoExistingLock](/docs/errors/chain/NoExistingLock): The referenced object is not on-chain; check the identifier
+    - [NoMigrationPerformed](/docs/errors/chain/NoMigrationPerformed): Check the argument values against the operation schema
+    - [NoNeuronIdAvailable](/docs/errors/chain/NoNeuronIdAvailable): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [NoPermission](/docs/errors/chain/NoPermission): Sign with the key or origin that owns the target object, then retry
+    - [NoSelfProxy](/docs/errors/chain/NoSelfProxy): Check the argument values against the operation schema
+    - [NoTimepoint](/docs/errors/chain/NoTimepoint): Check the argument values against the operation schema
+    - [NoWeightsCommitFound](/docs/errors/chain/NoWeightsCommitFound): The referenced object is not on-chain; check the identifier
+    - [NonAssociatedColdKey](/docs/errors/chain/NonAssociatedColdKey): Sign with the key or origin that owns the target object, then retry
+    - [NonDefaultComposite](/docs/errors/chain/NonDefaultComposite): Check the argument values against the operation schema
+    - [NonZeroRefCount](/docs/errors/chain/NonZeroRefCount): Check the argument values against the operation schema
+    - [NoneValue](/docs/errors/chain/NoneValue): The referenced object is not on-chain; check the identifier
+    - [NotAllowed](/docs/errors/chain/NotAllowed): Sign with the key or origin that owns the target object, then retry
+    - [NotAuthorized](/docs/errors/chain/NotAuthorized): Sign with the key or origin that owns the target object, then retry
+    - [NotConfigured](/docs/errors/chain/NotConfigured): This call or feature is switched off on this network
+    - [NotEnoughAlphaOutToRecycle](/docs/errors/chain/NotEnoughAlphaOutToRecycle): The pool cannot absorb this trade; reduce the amount or split it into smaller steps
+    - [NotEnoughBalanceToPaySwapColdKey](/docs/errors/chain/NotEnoughBalanceToPaySwapColdKey): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [NotEnoughBalanceToPaySwapHotKey](/docs/errors/chain/NotEnoughBalanceToPaySwapHotKey): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [NotEnoughBalanceToStake](/docs/errors/chain/NotEnoughBalanceToStake): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [NotEnoughStake](/docs/errors/chain/NotEnoughStake): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [NotEnoughStakeToSetChildkeys](/docs/errors/chain/NotEnoughStakeToSetChildkeys): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [NotEnoughStakeToSetWeights](/docs/errors/chain/NotEnoughStakeToSetWeights): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [NotEnoughStakeToWithdraw](/docs/errors/chain/NotEnoughStakeToWithdraw): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [NotFound](/docs/errors/chain/NotFound): The referenced object is not on-chain; check the identifier
+    - [NotNoted](/docs/errors/chain/NotNoted): The referenced object is not on-chain; check the identifier
+    - [NotOwner](/docs/errors/chain/NotOwner): Sign with the key or origin that owns the target object, then retry
+    - [NotPermittedOnRootSubnet](/docs/errors/chain/NotPermittedOnRootSubnet): Check the argument values against the operation schema
+    - [NotProxy](/docs/errors/chain/NotProxy): Sign with the key or origin that owns the target object, then retry
+    - [NotReadyToDissolve](/docs/errors/chain/NotReadyToDissolve): The required window has not opened yet; wait some blocks and retry
+    - [NotRequested](/docs/errors/chain/NotRequested): The referenced object is not on-chain; check the identifier
+    - [NotRootSubnet](/docs/errors/chain/NotRootSubnet): Check the argument values against the operation schema
+    - [NotSubnetOwner](/docs/errors/chain/NotSubnetOwner): Sign with the key or origin that owns the target object, then retry
+    - [NothingAuthorized](/docs/errors/chain/NothingAuthorized): The referenced object is not on-chain; check the identifier
+    - [OrderAlreadyProcessed](/docs/errors/chain/OrderAlreadyProcessed): The object or state already exists; treat the goal as met or pick a different target
+    - [OrderCancelled](/docs/errors/chain/OrderCancelled): The window has closed; restart the flow with fresh state
+    - [OrderExpired](/docs/errors/chain/OrderExpired): The window has closed; restart the flow with fresh state
+    - [OrderNetUidMismatch](/docs/errors/chain/OrderNetUidMismatch): Check the argument values against the operation schema
+    - [OutOfBounds](/docs/errors/chain/OutOfBounds): Check the argument values against the operation schema
+    - [OutOfGas](/docs/errors/chain/OutOfGas): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [OutOfTransientStorage](/docs/errors/chain/OutOfTransientStorage): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [OutputBufferTooSmall](/docs/errors/chain/OutputBufferTooSmall): Check the argument values against the operation schema
+    - [Overflow](/docs/errors/chain/Overflow): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [POWRegistrationDisabled](/docs/errors/chain/POWRegistrationDisabled): This call or feature is switched off on this network
+    - [PalletHotkeyNotRegistered](/docs/errors/chain/PalletHotkeyNotRegistered): Register the hotkey on this subnet first with `btcli subnets register`
+    - [PartialFillsNotEnabled](/docs/errors/chain/PartialFillsNotEnabled): This call or feature is switched off on this network
+    - [PauseFailed](/docs/errors/chain/PauseFailed): Check the argument values against the operation schema
+    - [PaymentOverflow](/docs/errors/chain/PaymentOverflow): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [PreLogExists](/docs/errors/chain/PreLogExists): Check the argument values against the operation schema
+    - [PriceConditionNotMet](/docs/errors/chain/PriceConditionNotMet): The required window has not opened yet; wait some blocks and retry
+    - [PriceLimitExceeded](/docs/errors/chain/PriceLimitExceeded): The pool cannot absorb this trade; reduce the amount or split it into smaller steps
+    - [ProportionOverflow](/docs/errors/chain/ProportionOverflow): Check the argument values against the operation schema
+    - [PulseVerificationError](/docs/errors/chain/PulseVerificationError): Check the argument values against the operation schema
+    - [RandomSubjectTooLong](/docs/errors/chain/RandomSubjectTooLong): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [ReentranceDenied](/docs/errors/chain/ReentranceDenied): Check the argument values against the operation schema
+    - [Reentrancy](/docs/errors/chain/Reentrancy): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [RegistrationNotPermittedOnRootSubnet](/docs/errors/chain/RegistrationNotPermittedOnRootSubnet): Check the argument values against the operation schema
+    - [RegistrationPriceLimitExceeded](/docs/errors/chain/RegistrationPriceLimitExceeded): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [RelayerMissMatch](/docs/errors/chain/RelayerMissMatch): Check the argument values against the operation schema
+    - [RelayerRequiredForPartialFill](/docs/errors/chain/RelayerRequiredForPartialFill): Check the argument values against the operation schema
+    - [Requested](/docs/errors/chain/Requested): Check the argument values against the operation schema
+    - [RequireSudo](/docs/errors/chain/RequireSudo): Sign with the key or origin that owns the target object, then retry
+    - [RescheduleNoChange](/docs/errors/chain/RescheduleNoChange): Check the argument values against the operation schema
+    - [ReservesOutOfBalance](/docs/errors/chain/ReservesOutOfBalance): The pool cannot absorb this trade; reduce the amount or split it into smaller steps
+    - [ReservesTooLow](/docs/errors/chain/ReservesTooLow): The pool cannot absorb this trade; reduce the amount or split it into smaller steps
+    - [ResumeFailed](/docs/errors/chain/ResumeFailed): Check the argument values against the operation schema
+    - [RevealPeriodTooLarge](/docs/errors/chain/RevealPeriodTooLarge): Check the argument values against the operation schema
+    - [RevealPeriodTooSmall](/docs/errors/chain/RevealPeriodTooSmall): Check the argument values against the operation schema
+    - [RevealTooEarly](/docs/errors/chain/RevealTooEarly): The required window has not opened yet; wait some blocks and retry
+    - [RootNetUidNotAllowed](/docs/errors/chain/RootNetUidNotAllowed): Check the argument values against the operation schema
+    - [RootNetworkDoesNotExist](/docs/errors/chain/RootNetworkDoesNotExist): Use an existing netuid; `btcli subnets list` shows valid ones
+    - [SameAutoStakeHotkeyAlreadySet](/docs/errors/chain/SameAutoStakeHotkeyAlreadySet): The object or state already exists; treat the goal as met or pick a different target
+    - [SameNetuid](/docs/errors/chain/SameNetuid): Check the argument values against the operation schema
+    - [SenderInSignatories](/docs/errors/chain/SenderInSignatories): Check the argument values against the operation schema
+    - [ServingRateLimitExceeded](/docs/errors/chain/ServingRateLimitExceeded): Wait for the rate-limit window to pass, then retry
+    - [SettingWeightsTooFast](/docs/errors/chain/SettingWeightsTooFast): Wait for the rate-limit window to pass, then retry
+    - [SignatoriesOutOfOrder](/docs/errors/chain/SignatoriesOutOfOrder): Check the argument values against the operation schema
+    - [SlippageTooHigh](/docs/errors/chain/SlippageTooHigh): The price moved past the slippage-protection limit (stake trades are protected by default with a 5% tolerance); retry, raise the tolerance (`--rate-tolerance 0.1` / rate_tolerance=0.1), or disable protection entirely (`--no-slippage-protection` / slippage_protection=False)
+    - [SpaceLimitExceeded](/docs/errors/chain/SpaceLimitExceeded): Wait for the rate-limit window to pass, then retry
+    - [SpecVersionNeedsToIncrease](/docs/errors/chain/SpecVersionNeedsToIncrease): Check the argument values against the operation schema
+    - [StakeTooLowForRoot](/docs/errors/chain/StakeTooLowForRoot): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [StakeUnavailable](/docs/errors/chain/StakeUnavailable): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [StakingRateLimitExceeded](/docs/errors/chain/StakingRateLimitExceeded): Wait for the rate-limit window to pass, then retry
+    - [StartCallNotReady](/docs/errors/chain/StartCallNotReady): The required window has not opened yet; wait some blocks and retry
+    - [StateChangeDenied](/docs/errors/chain/StateChangeDenied): Sign with the key or origin that owns the target object, then retry
+    - [StorageDepositLimitExhausted](/docs/errors/chain/StorageDepositLimitExhausted): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [StorageDepositNotEnoughFunds](/docs/errors/chain/StorageDepositNotEnoughFunds): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [StorageOverflow](/docs/errors/chain/StorageOverflow): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [SubNetRegistrationDisabled](/docs/errors/chain/SubNetRegistrationDisabled): This call or feature is switched off on this network
+    - [SubnetBuybackRateLimitExceeded](/docs/errors/chain/SubnetBuybackRateLimitExceeded): Wait for the rate-limit window to pass, then retry
+    - [SubnetDoesNotExist](/docs/errors/chain/SubnetDoesNotExist): Use an existing netuid; `btcli subnets list` shows valid ones
+    - [SubnetLimitReached](/docs/errors/chain/SubnetLimitReached): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [SubnetNotExists](/docs/errors/chain/SubnetNotExists): Use an existing netuid; `btcli subnets list` shows valid ones
+    - [SubtokenDisabled](/docs/errors/chain/SubtokenDisabled): The subnet is not active yet; wait for start_call
+    - [SwapInputTooLarge](/docs/errors/chain/SwapInputTooLarge): The pool cannot absorb this trade; reduce the amount or split it into smaller steps
+    - [SwapReturnedZero](/docs/errors/chain/SwapReturnedZero): The pool cannot absorb this trade; reduce the amount or split it into smaller steps
+    - [SymbolAlreadyInUse](/docs/errors/chain/SymbolAlreadyInUse): The object or state already exists; treat the goal as met or pick a different target
+    - [SymbolDoesNotExist](/docs/errors/chain/SymbolDoesNotExist): The referenced object is not on-chain; check the identifier
+    - [TargetBlockNumberInPast](/docs/errors/chain/TargetBlockNumberInPast): Check the argument values against the operation schema
+    - [TempoOutOfBounds](/docs/errors/chain/TempoOutOfBounds): Check the argument values against the operation schema
+    - [TerminatedInConstructor](/docs/errors/chain/TerminatedInConstructor): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [TerminatedWhileReentrant](/docs/errors/chain/TerminatedWhileReentrant): Check the argument values against the operation schema
+    - [TooBig](/docs/errors/chain/TooBig): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooFew](/docs/errors/chain/TooFew): Check the argument values against the operation schema
+    - [TooFewSignatories](/docs/errors/chain/TooFewSignatories): Check the argument values against the operation schema
+    - [TooMany](/docs/errors/chain/TooMany): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooManyCalls](/docs/errors/chain/TooManyCalls): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooManyChildren](/docs/errors/chain/TooManyChildren): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooManyFieldsInCommitmentInfo](/docs/errors/chain/TooManyFieldsInCommitmentInfo): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooManyFreezes](/docs/errors/chain/TooManyFreezes): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooManyHolds](/docs/errors/chain/TooManyHolds): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooManyPendingExtrinsics](/docs/errors/chain/TooManyPendingExtrinsics): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooManyRegistrationsThisBlock](/docs/errors/chain/TooManyRegistrationsThisBlock): Wait for the rate-limit window to pass, then retry
+    - [TooManyRegistrationsThisInterval](/docs/errors/chain/TooManyRegistrationsThisInterval): Wait for the rate-limit window to pass, then retry
+    - [TooManyReserves](/docs/errors/chain/TooManyReserves): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooManySignatories](/docs/errors/chain/TooManySignatories): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooManyTopics](/docs/errors/chain/TooManyTopics): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooManyUIDsPerMechanism](/docs/errors/chain/TooManyUIDsPerMechanism): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooManyUnrevealedCommits](/docs/errors/chain/TooManyUnrevealedCommits): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TooSoon](/docs/errors/chain/TooSoon): Wait for the rate-limit window to pass, then retry
+    - [TransactionMustComeFromEOA](/docs/errors/chain/TransactionMustComeFromEOA): Sign with the key or origin that owns the target object, then retry
+    - [TransactorAccountShouldBeHotKey](/docs/errors/chain/TransactorAccountShouldBeHotKey): Sign with the key or origin that owns the target object, then retry
+    - [TransferDisallowed](/docs/errors/chain/TransferDisallowed): This call or feature is switched off on this network
+    - [TransferFailed](/docs/errors/chain/TransferFailed): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [TrimmingWouldExceedMaxImmunePercentage](/docs/errors/chain/TrimmingWouldExceedMaxImmunePercentage): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [TxChildkeyTakeRateLimitExceeded](/docs/errors/chain/TxChildkeyTakeRateLimitExceeded): Wait for the rate-limit window to pass, then retry
+    - [TxRateLimitExceeded](/docs/errors/chain/TxRateLimitExceeded): Wait for the rate-limit window to pass, then retry
+    - [UidMapCouldNotBeCleared](/docs/errors/chain/UidMapCouldNotBeCleared): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [UidVecContainInvalidOne](/docs/errors/chain/UidVecContainInvalidOne): Check the argument values against the operation schema
+    - [UidsLengthExceedUidsInSubNet](/docs/errors/chain/UidsLengthExceedUidsInSubNet): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [UnableToRecoverPublicKey](/docs/errors/chain/UnableToRecoverPublicKey): Check the argument values against the operation schema
+    - [Unannounced](/docs/errors/chain/Unannounced): The required window has not opened yet; wait some blocks and retry
+    - [Unauthorized](/docs/errors/chain/Unauthorized): Sign with the key or origin that owns the target object, then retry
+    - [Undefined](/docs/errors/chain/Undefined): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [Underflow](/docs/errors/chain/Underflow): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [UnexpectedTimepoint](/docs/errors/chain/UnexpectedTimepoint): Check the argument values against the operation schema
+    - [UnexpectedUnreserveLeftover](/docs/errors/chain/UnexpectedUnreserveLeftover): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [UnlockAmountTooHigh](/docs/errors/chain/UnlockAmountTooHigh): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [Unproxyable](/docs/errors/chain/Unproxyable): Sign with the key or origin that owns the target object, then retry
+    - [Unreachable](/docs/errors/chain/Unreachable): A chain-side invariant failed; nothing to fix client-side — report it if it persists
+    - [UnverifiedPulse](/docs/errors/chain/UnverifiedPulse): Check the argument values against the operation schema
+    - [ValueNotInBounds](/docs/errors/chain/ValueNotInBounds): Check the argument values against the operation schema
+    - [ValueTooLarge](/docs/errors/chain/ValueTooLarge): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [VestingBalance](/docs/errors/chain/VestingBalance): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [VotingPowerTrackingNotEnabled](/docs/errors/chain/VotingPowerTrackingNotEnabled): This call or feature is switched off on this network
+    - [WaitingForDissolvedSubnetCleanup](/docs/errors/chain/WaitingForDissolvedSubnetCleanup): The required window has not opened yet; wait some blocks and retry
+    - [WeightExceedsAbsoluteMax](/docs/errors/chain/WeightExceedsAbsoluteMax): A chain-side capacity limit was hit; reduce the size or count of the request
+    - [WeightVecLengthIsLow](/docs/errors/chain/WeightVecLengthIsLow): Check the argument values against the operation schema
+    - [WeightVecNotEqualSize](/docs/errors/chain/WeightVecNotEqualSize): Check the argument values against the operation schema
+    - [WithdrawFailed](/docs/errors/chain/WithdrawFailed): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [WrongTimepoint](/docs/errors/chain/WrongTimepoint): Check the argument values against the operation schema
+    - [XCMDecodeFailed](/docs/errors/chain/XCMDecodeFailed): Check the argument values against the operation schema
+    - [ZeroBalanceAfterWithdrawn](/docs/errors/chain/ZeroBalanceAfterWithdrawn): Fund the signing account or reduce the amount; check with `btcli wallet balance`
+    - [ZeroShareInBatch](/docs/errors/chain/ZeroShareInBatch): Check the argument values against the operation schema
+- Hyperparameters
+  - [Hyperparameters](/docs/hyperparameters): What each subnet hyperparameter controls, its unit, and how to change it.
+  - [rho](/docs/hyperparameters/rho): Steepness of the classic Yuma trust sigmoid mapping consensus alignment to trust.
+  - [kappa](/docs/hyperparameters/kappa): Majority-stake threshold at which a weight counts as consensus-supported in Yuma Consensus.
+  - [immunity_period](/docs/hyperparameters/immunity-period): Blocks a newly registered neuron is protected from being pruned as the lowest-scoring UID on a full subnet.
+  - [min_allowed_weights](/docs/hyperparameters/min-allowed-weights): Minimum number of distinct weights a validator must include in one weight submission.
+  - [max_weights_limit](/docs/hyperparameters/max-weights-limit): Cap on the share of a validator's total weight that any single miner may receive.
+  - [tempo](/docs/hyperparameters/tempo): Blocks per epoch — how often a subnet runs Yuma Consensus and distributes emissions.
+  - [min_difficulty](/docs/hyperparameters/min-difficulty): Lower bound for the PoW registration difficulty controller; u64::MAX pins difficulty at maximum, disabling PoW registration.
+  - [max_difficulty](/docs/hyperparameters/max-difficulty): Upper bound for the PoW registration difficulty controller; u64::MAX leaves difficulty unbounded above.
+  - [difficulty](/docs/hyperparameters/difficulty): Current PoW registration difficulty; u64::MAX means PoW registration is effectively disabled.
+  - [weights_version](/docs/hyperparameters/weights-version): Minimum version key a validator must send with set_weights; a forced-upgrade lever for subnet owners.
+  - [weights_rate_limit](/docs/hyperparameters/weights-rate-limit): Minimum number of blocks a validator must wait between weight submissions on a subnet.
+  - [adjustment_interval](/docs/hyperparameters/adjustment-interval): Blocks between adjustments of the registration difficulty and burn cost (legacy cadence).
+  - [activity_cutoff](/docs/hyperparameters/activity-cutoff): Blocks without setting weights after which a validator is inactive and excluded from consensus.
+  - [activity_cutoff_factor](/docs/hyperparameters/activity-cutoff-factor): Tempo-relative activity cutoff — per-mille of tempo a validator can go without setting weights.
+  - [registration_allowed](/docs/hyperparameters/registration-allowed): Whether new neuron registrations are currently accepted on this subnet.
+  - [network_pow_registration_allowed](/docs/hyperparameters/network-pow-registration-allowed): Whether proof-of-work registration is allowed, as opposed to burned registration only.
+  - [target_regs_per_interval](/docs/hyperparameters/target-regs-per-interval): Registrations per interval the registration controller steers toward; today a hard admission cap.
+  - [min_burn](/docs/hyperparameters/min-burn): Floor for the burned-registration cost, in rao.
+  - [max_burn](/docs/hyperparameters/max-burn): Ceiling for the burned-registration cost, in rao.
+  - [bonds_moving_avg](/docs/hyperparameters/bonds-moving-avg): Smoothing factor for the validator bonds EMA — higher retains more of past bonds each epoch.
+  - [max_regs_per_block](/docs/hyperparameters/max-regs-per-block): Maximum neuron registrations accepted on a subnet in a single block.
+  - [serving_rate_limit](/docs/hyperparameters/serving-rate-limit): Minimum blocks a neuron must wait between axon (or prometheus) serve calls.
+  - [max_validators](/docs/hyperparameters/max-validators): Maximum validator permits — only the top-stake neurons up to this count may validate.
+  - [adjustment_alpha](/docs/hyperparameters/adjustment-alpha): Smoothing factor of the legacy difficulty/burn adjustment, stored as u64 (u64::MAX = 1.0).
+  - [commit_reveal_period](/docs/hyperparameters/commit-reveal-period): Epochs between committing a weights hash and revealing the weights, when commit-reveal is enabled.
+  - [commit_reveal_weights_enabled](/docs/hyperparameters/commit-reveal-weights-enabled): Whether validators must submit weights through commit-reveal, hiding them from copiers until the reveal.
+  - [alpha_high](/docs/hyperparameters/alpha-high): Upper bound of the liquid-alpha bonds EMA range — the smoothing rate for weights that deviate most from consensus.
+  - [alpha_low](/docs/hyperparameters/alpha-low): Lower bound of the liquid-alpha bonds EMA range — the smoothing rate for weights that sit at consensus.
+  - [liquid_alpha_enabled](/docs/hyperparameters/liquid-alpha-enabled): Switches the bonds EMA from one flat rate to a per-weight rate that varies between alpha_low and alpha_high.
+  - [bonds_penalty](/docs/hyperparameters/bonds-penalty): How much out-of-consensus weight is excluded from bond accrual, from none (0) to full clipping (1).
+  - [alpha_sigmoid_steepness](/docs/hyperparameters/alpha-sigmoid-steepness): Slope of the liquid-alpha sigmoid mapping consensus deviation to the bonds EMA rate; negative values (root only) invert the curve.
+  - [min_childkey_take](/docs/hyperparameters/min-childkey-take): Per-subnet floor on the take a childkey may charge its parent hotkeys.
+  - [owner_immune_neuron_limit](/docs/hyperparameters/owner-immune-neuron-limit): How many of the subnet owner's own neurons are permanently immune from pruning.
+  - [max_allowed_uids](/docs/hyperparameters/max-allowed-uids): Neuron slot capacity of the subnet — registrations beyond it prune the lowest-scoring UID.
+  - [burn_increase_mult](/docs/hyperparameters/burn-increase-mult): Multiplier applied to the burn cost after each successful registration.
+  - [burn_half_life](/docs/hyperparameters/burn-half-life): Blocks for the burn cost to decay halfway back toward min_burn.
+  - [yuma3_enabled](/docs/hyperparameters/yuma3-enabled): Enables the Yuma3 consensus variant, which changes how bonds are stored and dividends computed — and unlocks liquid alpha.
+  - [yuma_version](/docs/hyperparameters/yuma-version): Which Yuma consensus variant the subnet's epoch runs — a derived reading of yuma3_enabled.
+  - [subnet_is_active](/docs/hyperparameters/subnet-is-active): Whether the subnet has been started — staking, alpha trading, and emissions are live.
+  - [subnet_emission_enabled](/docs/hyperparameters/subnet-emission-enabled): Root-controlled switch for the subnet's pool-side TAO emission share.
+  - [user_liquidity_enabled](/docs/hyperparameters/user-liquidity-enabled): Legacy flag for user-provided swap liquidity; always false since the balancer migration.
+  - [bonds_reset_enabled](/docs/hyperparameters/bonds-reset-enabled): Whether a neuron's accrued validator bonds are wiped when it commits new on-chain metadata.
+  - [transfers_enabled](/docs/hyperparameters/transfers-enabled): Per-subnet toggle allowing stake to be transferred between coldkeys.
+  - [owner_cut_enabled](/docs/hyperparameters/owner-cut-enabled): Per-subnet toggle for the subnet owner's 18% share of alpha emission.
+  - [owner_cut_auto_lock_enabled](/docs/hyperparameters/owner-cut-auto-lock-enabled): Per-subnet toggle that conviction-locks the owner's emission cut as it is paid.
+
+- **Contributing**
+- Internals: Runtime internals and contributor documentation
+  - [Contributing](/docs/internals/contributing): PR lifecycle, review requirements, labels, and how a merge rides the release train to devnet, testnet, and mainnet.
+  - [Repository layout](/docs/internals/repo-layout): What lives where — a map of the subtensor monorepo for new contributors.
+  - [Release process](/docs/internals/release-process): How a merge to main becomes a runtime upgrade on devnet, testnet, and mainnet, and how the release train's artifacts are published.
+  - [Yuma Consensus](/docs/internals/consensus): The consensus mechanism, its game-theoretic framework, Monte Carlo simulations, and consensus guarantees.
+  - [Transaction priority](/docs/internals/transaction-priority): How custom transaction extensions determine extrinsic priority in subtensor.
+  - [Benchmarks and weights](/docs/internals/benchmarks-and-weights): How extrinsic weights are benchmarked, generated, and validated in CI.
+  - [Testing](/docs/internals/testing): How to run every test suite in the repo — Rust unit tests, TypeScript integration tests, and migration checks.
+  - [Mainnet clone testing](/docs/internals/mainnet-clone): How CI sudo-upgrades a clone of live mainnet with your runtime, and how to reproduce it locally when it fails.
+  - [Python SDK tests](/docs/internals/sdk-tests): The SDK test layers, the fake-substrate harness, and how to regenerate codegen bindings and golden fixtures after a runtime change.
+  - [Eco-tests (indexer contract)](/docs/internals/eco-tests): What the eco-tests pin, why they run on every PR, and what to do when one fails.
+  - [WASM smart contracts](/docs/internals/wasm-contracts): Deploy ink! smart contracts on subtensor via pallet-contracts and the custom chain extension.
+  - [Rust setup](/docs/internals/rust-setup): Prepare a computer for Substrate development.
+  - [Repository scripts](/docs/internals/scripts): What each script in scripts/ does, what depends on it, and when to run the manual tools.
+## Chain source code
+
+The Rust that runs on the chain (pallets, runtime, primitives — no tests/mocks/benchmarks), at commit 74b77d74e529498afba444fcaea9af7628540145.
+
+- [Index of every file (JSON)](/code/index.json)
+- Browse: /code/<repo-path> with #L<n> line anchors, e.g. /code/pallets/subtensor/src/coinbase/run_coinbase.rs
+- Plain text: /code/raw/<repo-path>
+- Roots: pallets, runtime, primitives, common, precompiles, chain-extensions

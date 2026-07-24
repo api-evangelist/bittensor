@@ -1,0 +1,16 @@
+generated: '2026-07-18'
+method: generated
+source: https://www.bittensor.com/catalog/intents.json + reads.json
+skills:
+- file: bittensor-stake-tao.md
+  name: Stake TAO to a validator
+  api: mcp/bittensor-intents.json
+  operations: [balance, alpha_price, quote_stake, add_stake, add_stake_limit, move_stake, remove_stake]
+- file: bittensor-register-and-mine.md
+  name: Register a hotkey and start mining
+  api: mcp/bittensor-intents.json
+  operations: [subnet_registration_cost, burned_register, serve_axon, metagraph, uid, neurons]
+- file: bittensor-run-a-subnet.md
+  name: Create and tune a subnet
+  api: mcp/bittensor-intents.json
+  operations: [register_subnet, set_subnet_identity, set_hyperparameter, set_mechanism_count, set_subnet_emission_enabled]

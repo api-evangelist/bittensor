@@ -1,0 +1,34 @@
+generated: '2026-07-18'
+method: searched
+source: https://www.bittensor.com/docs/cli
+name: btcli
+docs: https://www.bittensor.com/docs/cli
+description: The Bittensor command line — bundled in the bittensor v11 Python package. Wraps every chain
+  operation (wallets, staking, subnets, mining, validating, weights, proxies, sudo) with a plan/execute
+  model, --dry-run previews, and non-interactive flags for automation.
+install:
+- method: pip
+  command: 'uv pip install bittensor  # provides btcli'
+- method: pip-legacy
+  command: pip install bittensor-cli
+framework: Typer
+discovery:
+  list_tools: btcli tools
+  dry_run: --dry-run on state-changing commands
+command_groups:
+- group: wallet
+  purpose: Create/manage coldkeys & hotkeys, balances, transfers.
+- group: stake
+  purpose: Add/remove/move stake across subnets; manage positions.
+- group: subnets
+  purpose: Create, register on, and manage subnets.
+- group: sudo
+  purpose: Owner/root subnet administration (set hyperparameters, emission).
+- group: weights
+  purpose: Commit and reveal validator weights.
+- group: root
+  purpose: Root-network staking and dividend claims.
+- group: tools
+  purpose: List machine-readable operation catalog for agents.
+note: Command groups are generated from the same intent catalog published at /catalog/intents.json; the
+  surface tracks the SDK 1:1.

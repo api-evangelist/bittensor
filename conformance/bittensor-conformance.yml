@@ -1,0 +1,28 @@
+generated: '2026-07-18'
+method: derived
+source: https://www.bittensor.com/docs/guides/evm
+standards:
+- id: substrate-json-rpc
+  conforms: true
+  evidence: subtensor is a Substrate chain exposing the standard Substrate JSON-RPC over ws.
+- id: sr25519
+  conforms: true
+  evidence: wallet signatures use sr25519/ed25519 keypairs.
+- id: ss58-address
+  conforms: true
+  evidence: accounts use SS58 address encoding.
+- id: ethereum-json-rpc
+  conforms: true
+  evidence: Bittensor EVM layer exposes Ethereum JSON-RPC + precompiles (MetaMask/Hardhat/Remix compatible).
+- id: oauth2
+  conforms: false
+- id: openid-connect
+  conforms: false
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: errors use provider semantic codes, not application/problem+json (no REST surface).
+- id: openapi
+  conforms: false
+  evidence: no OpenAPI/REST surface; SDK+chain interface only.
+note: Cross-cutting/industry conformance derived from documented chain + EVM interfaces. No published
+  compliance program (SOC 2 / ISO 27001 / etc.).

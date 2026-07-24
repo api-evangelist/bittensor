@@ -1,0 +1,602 @@
+generated: '2026-07-18'
+method: generated
+source: https://www.bittensor.com/catalog/intents.json
+audience: null
+summary:
+  total_operations: 73
+  by_action_class:
+    acting: 73
+  by_consequence:
+    write: 36
+    physical: 23
+    safety-critical: 14
+  human_in_the_loop_count: 14
+  note: Generated governance starting point classifying every published write intent. All write intents
+    are wallet-key-signed (coldkey/hotkey); financial (stake/transfer/swap) raised to physical, owner/root/weights/emission
+    controls to safety-critical. Reads are connected/read and omitted here.
+operations:
+- operation: add_proxy
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: add_stake
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: add_stake_limit
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: announce_coldkey_swap
+  action_class: acting
+  consequence: safety-critical
+  signer: coldkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: associate_evm_key
+  action_class: acting
+  consequence: write
+  signer: hotkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: associate_hotkey
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: batch
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: burned_register
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: claim_root
+  action_class: acting
+  consequence: safety-critical
+  signer: coldkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: clear_coldkey_swap_announcement
+  action_class: acting
+  consequence: safety-critical
+  signer: coldkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: commit_weights
+  action_class: acting
+  consequence: safety-critical
+  signer: hotkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: contribute_crowdloan
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: create_crowdloan
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: create_pure_proxy
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: decrease_take
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: dispute_coldkey_swap
+  action_class: acting
+  consequence: safety-critical
+  signer: coldkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: dissolve_crowdloan
+  action_class: acting
+  consequence: safety-critical
+  signer: coldkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: evm_withdraw
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: execute_proxy_announced
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: finalize_crowdloan
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: fund_evm_key
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: increase_take
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: kill_pure_proxy
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: lock_stake
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: move_lock
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: move_stake
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: multisig_approve
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: multisig_cancel
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: multisig_execute
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: multisig_threshold_1
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: refund_crowdloan
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: register_leased_network
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: register_subnet
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: remove_proxies
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: remove_proxy
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: remove_stake
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: remove_stake_limit
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: reset_axon
+  action_class: acting
+  consequence: write
+  signer: hotkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: reveal_weights
+  action_class: acting
+  consequence: safety-critical
+  signer: hotkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: root_register
+  action_class: acting
+  consequence: safety-critical
+  signer: coldkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: serve_axon
+  action_class: acting
+  consequence: write
+  signer: hotkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: serve_axon_tls
+  action_class: acting
+  consequence: write
+  signer: hotkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: serve_prometheus
+  action_class: acting
+  consequence: write
+  signer: hotkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: set_auto_stake
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: set_childkey_take
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: set_children
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: set_crowdloan_max_contribution
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: set_hyperparameter
+  action_class: acting
+  consequence: safety-critical
+  signer: coldkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: set_identity
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: set_mechanism_count
+  action_class: acting
+  consequence: safety-critical
+  signer: coldkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: set_perpetual_lock
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: set_root_claim_type
+  action_class: acting
+  consequence: safety-critical
+  signer: coldkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: set_subnet_emission_enabled
+  action_class: acting
+  consequence: safety-critical
+  signer: coldkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: set_subnet_identity
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: set_take
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: set_weights
+  action_class: acting
+  consequence: safety-critical
+  signer: hotkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: stake_burn
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: start_call
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: swap_coldkey_announced
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: swap_hotkey
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: swap_stake
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: terminate_lease
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: transfer
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: transfer_all
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: transfer_stake
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: trim_subnet
+  action_class: acting
+  consequence: safety-critical
+  signer: coldkey
+  token:
+    ttl_seconds: 120
+    proof_of_possession: true
+  audit: required
+  human_in_the_loop: required
+- operation: unstake_all
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: unstake_all_alpha
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true
+- operation: update_crowdloan_cap
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: update_crowdloan_end
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: update_crowdloan_min_contribution
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: update_symbol
+  action_class: acting
+  consequence: write
+  signer: coldkey
+  token:
+    ttl_seconds: 900
+  audit: required
+- operation: withdraw_crowdloan
+  action_class: acting
+  consequence: physical
+  signer: coldkey
+  token:
+    ttl_seconds: 300
+    exchange: true
+  audit: required
+  purpose_required: true

@@ -1,0 +1,37 @@
+generated: '2026-07-18'
+method: searched
+source: live probes of https://www.bittensor.com
+host: https://www.bittensor.com
+documents:
+- path: /.well-known/security.txt
+  status: 404
+- path: /.well-known/openid-configuration
+  status: 404
+- path: /.well-known/oauth-authorization-server
+  status: 404
+- path: /.well-known/api-catalog
+  status: 404
+- path: /.well-known/ai-plugin.json
+  status: 404
+- path: /llms.txt
+  status: 200
+  content_type: text/plain
+  file: ../llms/bittensor-llms.txt
+  note: Agent-facing site/docs index (llms.txt standard).
+- path: /catalog/intents.json
+  status: 200
+  content_type: application/json
+  file: ../mcp/bittensor-intents.json
+  note: Machine-readable catalog of 73 write intents.
+- path: /catalog/reads.json
+  status: 200
+  content_type: application/json
+  file: ../mcp/bittensor-reads.json
+  note: Machine-readable catalog of 82 chain reads.
+- path: /catalog/errors.json
+  status: 200
+  content_type: application/json
+  file: ../errors/bittensor-errors-catalog.json
+  note: Machine-readable error catalog (18 semantic codes + 355 chain errors).
+note: No RFC 8615 /.well-known/ documents are published, but Bittensor exposes an equivalent agent-discovery
+  catalog surface at /catalog/*.json and /llms.txt.

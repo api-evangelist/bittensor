@@ -1,0 +1,35 @@
+generated: '2026-07-18'
+method: searched
+source: https://www.bittensor.com/docs/concepts/transactions
+authentication: Substrate wallet-key signatures (sr25519/ed25519); see authentication/bittensor-authentication.yml
+transaction_model:
+  style: intent -> plan -> execute
+  discovery: 'Machine-readable catalogs: /catalog/intents.json (writes), /catalog/reads.json (reads),
+    /catalog/errors.json.'
+  plan: client.plan(intent, wallet) returns fee, effects (predicted state changes), warnings, and ok (policy
+    check) WITHOUT submitting.
+  dry_run: btcli --dry-run runs the full pipeline without chain submission.
+  execute: Operations run by name with plain dicts validated against input_schema.
+  results: Typed results carry a semantic error code + remediation hint (branchable, not prose).
+guardrails:
+  object: Policy
+  controls:
+  - max_spend_tao
+  - allowed_netuids
+  - raw-call gating
+  default: Operations with unbounded cost are blocked until caps are raised.
+idempotency:
+  supported: false
+  note: No Idempotency-Key contract. Replay/ordering is governed by Substrate account nonce; the docs
+    explicitly note the SDK exposes no idempotency-key mechanism. MEV-shielded submission is available
+    for staking.
+pagination:
+  note: Chain reads return full typed structures (e.g. metagraph); no cursor/offset REST pagination.
+versioning: Unified package versioning (current v11); see lifecycle/bittensor-lifecycle.yml
+errors: Semantic error codes + remediation; see errors/bittensor-error-codes.yml
+advanced_submission:
+- proxies
+- atomic batches
+- MEV-shielded submission
+- multisig
+- raw calls

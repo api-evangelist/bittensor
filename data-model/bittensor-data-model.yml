@@ -1,0 +1,71 @@
+generated: '2026-07-18'
+method: derived
+source: https://www.bittensor.com/catalog/reads.json
+source: derived from https://www.bittensor.com/catalog/reads.json + intents.json categories
+entity_count: 12
+entities:
+- name: Subnet
+  aka: netuid
+  description: A specialized market/network identified by netuid; hosts miners and validators.
+- name: Neuron
+  aka: UID
+  description: A registered participant slot (miner or validator) on a subnet, addressed by UID.
+  belongs_to: Subnet
+  via: netuid
+- name: Coldkey
+  description: Root wallet key that custodies funds and authorizes high-value operations.
+- name: Hotkey
+  description: Operational key registered on subnets to mine/validate and sign requests.
+  belongs_to: Coldkey
+  via: coldkey
+- name: Stake
+  description: TAO/alpha backing a hotkey on a subnet via the per-subnet balancer pool.
+  belongs_to: Hotkey
+  via: hotkey
+- name: Balance
+  description: TAO or per-subnet alpha holdings of an account (rao is the base unit).
+- name: Delegate
+  description: A validator hotkey that stakers can back; earns take on delegated stake.
+  belongs_to: Hotkey
+  via: hotkey
+- name: Weights
+  description: Validator-set scores over miner UIDs, committed/revealed per epoch.
+  belongs_to: Neuron
+  via: uid
+- name: Hyperparameter
+  description: Owner-settable per-subnet configuration value.
+  belongs_to: Subnet
+  via: netuid
+- name: Proxy
+  description: A scoped, revocable delegate key authorized to sign calls for an account.
+  belongs_to: Coldkey
+  via: delegator
+- name: Crowdloan/Lease
+  description: Pooled contribution + lease mechanism for subnet funding/ownership.
+- name: Commitment/Identity
+  description: On-chain identity/commitment records bound to a hotkey or subnet.
+relationships:
+- from: Neuron
+  to: Subnet
+  type: belongs_to
+  via: netuid
+- from: Hotkey
+  to: Coldkey
+  type: belongs_to
+  via: coldkey
+- from: Stake
+  to: Hotkey
+  type: belongs_to
+  via: hotkey
+- from: Subnet
+  to: Neuron
+  type: has_many
+  via: uid
+- from: Hyperparameter
+  to: Subnet
+  type: belongs_to
+  via: netuid
+- from: Proxy
+  to: Coldkey
+  type: belongs_to
+  via: delegator

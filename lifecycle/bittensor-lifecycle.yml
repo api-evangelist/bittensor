@@ -1,0 +1,22 @@
+generated: '2026-07-18'
+method: searched
+source: https://www.bittensor.com/releases
+versioning:
+  scheme: unified-package-semver
+  current: v11
+  note: v11 unified the legacy bittensor SDK (v10) and bittensor-cli (v9) into one package.
+  docs: https://www.bittensor.com/docs/migration
+releases:
+  url: https://www.bittensor.com/releases
+  source_code: https://github.com/opentensor/bittensor/releases
+migration:
+  url: https://www.bittensor.com/docs/migration
+  detail: Complete v9/v10 -> v11 mapping, written for LLM-assisted upgrades.
+status_page: null
+deprecation:
+  policy_url: null
+  note: No formal Sunset/Deprecation-header policy documented; breaking changes are communicated via the
+    migration guide and releases.
+sla: null
+note: As a permissionless L1 chain there is no hosted-API SLA; network liveness is a function of the subtensor
+  validator set.

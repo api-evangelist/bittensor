@@ -1,0 +1,113 @@
+generated: '2026-07-18'
+method: searched
+source: https://www.bittensor.com/catalog/errors.json
+format: semantic-codes
+envelope: SDK operations return typed results carrying a semantic error `code` plus a remediation hint;
+  chain-level dispatch errors map onto the same semantic codes.
+semantic_code_count: 18
+chain_error_count: 355
+raw_catalog: errors/bittensor-errors-catalog.json
+semantic_codes:
+- code: insufficient_balance
+  remediation: fund the signing account or reduce the amount; check with `btcli wallet balance`
+  docs_url: https://www.bittensor.com/docs/errors/insufficient-balance
+- code: insufficient_liquidity
+  remediation: the pool cannot absorb this trade; reduce the amount or split it into smaller steps
+  docs_url: https://www.bittensor.com/docs/errors/insufficient-liquidity
+- code: rate_limited
+  remediation: wait for the rate-limit window to pass, then retry
+  docs_url: https://www.bittensor.com/docs/errors/rate-limited
+- code: not_registered
+  remediation: register the hotkey on this subnet first with `btcli subnets register`
+  docs_url: https://www.bittensor.com/docs/errors/not-registered
+- code: not_authorized
+  remediation: sign with the key or origin that owns the target object, then retry
+  docs_url: https://www.bittensor.com/docs/errors/not-authorized
+- code: already_exists
+  remediation: the object or state already exists; treat the goal as met or pick a different target
+  docs_url: https://www.bittensor.com/docs/errors/already-exists
+- code: not_found
+  remediation: the referenced object is not on-chain; check the identifier
+  docs_url: https://www.bittensor.com/docs/errors/not-found
+- code: subnet_not_exists
+  remediation: use an existing netuid; `btcli subnets list` shows valid ones
+  docs_url: https://www.bittensor.com/docs/errors/subnet-not-exists
+- code: subtoken_disabled
+  remediation: the subnet is not active yet; wait for start_call
+  docs_url: https://www.bittensor.com/docs/errors/subtoken-disabled
+- code: disabled
+  remediation: this call or feature is switched off on this network
+  docs_url: https://www.bittensor.com/docs/errors/disabled
+- code: too_early
+  remediation: the required window has not opened yet; wait some blocks and retry
+  docs_url: https://www.bittensor.com/docs/errors/too-early
+- code: expired
+  remediation: the window has closed; restart the flow with fresh state
+  docs_url: https://www.bittensor.com/docs/errors/expired
+- code: limit_exceeded
+  remediation: a chain-side capacity limit was hit; reduce the size or count of the request
+  docs_url: https://www.bittensor.com/docs/errors/limit-exceeded
+- code: unit_mismatch
+  remediation: match the Balance netuid to the operation's currency
+  docs_url: https://www.bittensor.com/docs/errors/unit-mismatch
+- code: invalid_argument
+  remediation: check the argument values against the operation schema
+  docs_url: https://www.bittensor.com/docs/errors/invalid-argument
+- code: policy_violation
+  remediation: the action exceeds a configured safety policy
+  docs_url: https://www.bittensor.com/docs/errors/policy-violation
+- code: internal
+  remediation: a chain-side invariant failed; nothing to fix client-side — report it if it persists
+  docs_url: https://www.bittensor.com/docs/errors/internal
+- code: unknown
+  remediation: inspect the message for details
+  docs_url: https://www.bittensor.com/docs/errors/unknown
+chain_errors_sample:
+- name: AccountNotAllowedCommit
+  code: not_authorized
+  description: 'Raised by `set_commitment` when the runtime commit check fails: the subnet must exist
+    and the signing hotkey must be registered on it. Verify the `netuid` and t'
+- name: AccountRejectsLockedAlpha
+  code: invalid_argument
+  description: Locked alpha was being transferred to a coldkey whose `AccountFlags` do not have the accept-locked-alpha
+    bit set, e.g. during a lock transfer or coldkey swap of
+- name: ActiveLockExists
+  code: already_exists
+  description: The destination coldkey already holds a lock with nonzero locked mass on that subnet, so
+    a new or transferred lock cannot be created there. Inspect the `Lock` s
+- name: ActivityCutoffFactorMilliOutOfBounds
+  code: invalid_argument
+  description: The `factor_milli` argument to set the activity-cutoff factor was outside the allowed 1000-50000
+    per-mille range (1 to 50 tempos). Adjust the argument to fall w
+- name: ActivityCutoffTooLow
+  code: invalid_argument
+  description: An admin tried to set the subnet's activity cutoff below the chain-wide minimum. Compare
+    the requested value against the `MinActivityCutoff` storage item and cu
+- name: AddStakeBurnRateLimitExceeded
+  code: rate_limited
+  description: The add-stake-and-burn operation was submitted again before its per-key rate-limit window
+    elapsed. Wait some blocks and retry; no active raise site exists in cu
+- name: AdminActionProhibitedDuringWeightsWindow
+  code: too_early
+  description: 'An owner or admin hyperparameter change was attempted inside the protected freeze window
+    just before the subnet''s epoch runs. Check `AdminFreezeWindow` and the '
+- name: AllNetworksInImmunity
+  code: too_early
+  description: Creating a new subnet required pruning an existing one, but every candidate subnet is still
+    inside its network immunity period so none can be dissolved. Check `
+- name: AlphaHighTooLow
+  code: invalid_argument
+  description: The `alpha_high` argument to set liquid-alpha values was below the minimum of roughly 0.025
+    (1638/65535 in u16 units). Raise `alpha_high` in the `sudo_set_alpha
+- name: AlphaLowOutOfRange
+  code: invalid_argument
+  description: The `alpha_low` argument to set liquid-alpha values was below the ~0.025 minimum (1638/65535)
+    or greater than `alpha_high`. Choose alpha_low within that range a
+- name: AlreadyApproved
+  code: already_exists
+  description: 'The sender has already approved this multisig call, so a repeat approval is redundant.
+    Check the `Multisigs` entry for the call hash: the sender''s account alrea'
+- name: AlreadyDeposited
+  code: already_exists
+  description: The account calling safe-mode `enter` or `extend` already has a safe-mode deposit on hold,
+    so another cannot be placed. Check the account's `Deposits` entries a
