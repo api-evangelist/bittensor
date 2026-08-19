@@ -794,3 +794,9 @@ tools:
   description: Blocks a hotkey must wait between weight sets on a subnet.
   category: Hyperparameters
   source: catalog/reads.json
+deployment:
+  mode: none
+  verified: derived
+  tools: 155
+  checked: '2026-08-12'
+  source: catalog MCP census
